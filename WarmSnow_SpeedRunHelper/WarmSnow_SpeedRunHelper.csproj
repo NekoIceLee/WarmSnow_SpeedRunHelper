@@ -40,6 +40,7 @@
       <HintPath>..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\WarmSnow\WarmSnow_Data\Managed\Assembly-CSharp.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="BehaviorDesigner.Runtime, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="BepInEx.Core, Version=6.0.0.553, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>core\BepInEx.Core.dll</HintPath>
@@ -78,6 +79,11 @@
       <HintPath>Managed\UnityEngine.InputLegacyModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="UnityEngine.JSONSerializeModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Managed\UnityEngine.JSONSerializeModule.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="UnityEngine.TextCoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Managed\UnityEngine.TextCoreModule.dll</HintPath>
@@ -92,6 +98,7 @@
   <ItemGroup>
     <Compile Include="Entry.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TimeControl.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="core\0Harmony.dll" />

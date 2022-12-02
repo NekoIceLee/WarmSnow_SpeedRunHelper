@@ -9,6 +9,7 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using UnityEngine;
 using System.Runtime.CompilerServices;
+using UnityEngine.SceneManagement;
 
 namespace WarmSnow_SpeedRunHelper
 {
@@ -33,7 +34,10 @@ namespace WarmSnow_SpeedRunHelper
             preset3JsonString = Config.Bind(preset3Def, "");
             preset4JsonString = Config.Bind(preset4Def, "");
             OnUpdate += TimeControl.Instance.Update;
+            SceneManager.activeSceneChanged += MapLogger.Instance.SceneManager_activeSceneChanged;
         }
+
+
         void Update()
         {
 

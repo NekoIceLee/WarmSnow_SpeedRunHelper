@@ -13,20 +13,38 @@ namespace WarmSnow_SpeedRunHelper
     {
         public static MapLogger Instance { get; } = new MapLogger();
         public Scene CurrentScene { get; private set; }
+        Dictionary<string, string> sceneNameMapping = new Dictionary<string, string>();
         public string CurrentLogData
         {
             get
             {
                 var ingametime = UI_TimeCount.instance.m_time;
                 var modtime = TimeControl.Instance.StrTime;
-                var scenename = CurrentScene.name;
-                return $"{scenename},{modtime},{ingametime}";
+                return $"{CurrentSceneRename},{modtime},{ingametime}";
+            }
+        }
+        public string CurrentSceneRename
+        {
+            get
+            {
+                var path = CurrentScene.path;
+                var name = CurrentScene.name;
+
+                if (sceneNameMapping.TryGetValue(name, out var mapping))
+                {
+                    return mapping;
+                }
+
+                return name;
             }
         }
         private StreamWriter fileWriter;
         MapLogger()
         {
+            sceneNameMapping = new Dictionary<string, string>
+            {
 
+            };
         }
 
         public void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
@@ -35,6 +53,7 @@ namespace WarmSnow_SpeedRunHelper
             if (arg1.name.ToUpper().Contains("BASEMENT"))
             {
                 //finish event
+                fileWriter.WriteLine(CurrentLogData);
                 FinishThisRun();
                 return;
             }
@@ -51,6 +70,7 @@ namespace WarmSnow_SpeedRunHelper
                 return;
             }
             //common Switch Maps
+            fileWriter.WriteLine(CurrentLogData);
         }
         private void FinishThisRun()
         {

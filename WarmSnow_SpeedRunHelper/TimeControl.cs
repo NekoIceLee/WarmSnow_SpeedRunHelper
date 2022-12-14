@@ -24,7 +24,7 @@ namespace WarmSnow_SpeedRunHelper
             get
             {
                 bool temp;
-                temp = CameraControl.instance?.CanManipulate is true && UI_TimeCount.instance.isStart;
+                temp = CameraControl.instance?.CanManipulate is true && UI_TimeCount.instance?.isStart is true;
                 temp &= !IsBossHenshin;
                 temp &= !(UsuallyCutScene.instance?.isOn is true);
                 temp &= UI_PlayerUICanvas.instance?.isShow is true;

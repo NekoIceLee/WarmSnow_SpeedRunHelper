@@ -29,12 +29,13 @@ namespace WarmSnow_SpeedRunHelper
         
         void Start()
         {
-            preset1JsonString = Config.Bind(preset1Def, "");
-            preset2JsonString = Config.Bind(preset2Def, "");
-            preset3JsonString = Config.Bind(preset3Def, "");
-            preset4JsonString = Config.Bind(preset4Def, "");
+            preset1JsonString = Config.Bind(preset1Def, "{}");
+            preset2JsonString = Config.Bind(preset2Def, "{}");
+            preset3JsonString = Config.Bind(preset3Def, "{}");
+            preset4JsonString = Config.Bind(preset4Def, "{}");
             OnUpdate += TimeControl.Instance.Update;
             SceneManager.activeSceneChanged += MapLogger.Instance.SceneManager_activeSceneChanged;
+            
         }
 
 

@@ -82,6 +82,21 @@ namespace WarmSnow_SpeedRunHelper
             yield break;
         }
 
+        public Preset CreatePreset(Sect sect, int sectChose, Skill firstSkill, Potion potion1, Potion potion2)
+        {
+            return new Preset()
+            {
+                Sect = sect,
+                SectChose = sectChose,
+                FirstSkill = firstSkill.num,
+                FirstSkillType = firstSkill.sect,
+                Potion1 = potion1.PotionName,
+                Potion2 = potion2.PotionName,
+                Potion1Position = potion1.potionType,
+                Potion2Position = potion2.potionType,
+            };
+        }
+
         public Preset CreatePreset()
         {
             PlayerAnimControl player = PlayerAnimControl.instance;

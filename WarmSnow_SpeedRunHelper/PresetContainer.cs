@@ -61,7 +61,7 @@ namespace WarmSnow_SpeedRunHelper
             
         }
 
-        IEnumerable<Potion> OrderedPotions(IEnumerable<Potion> originList)
+        static IEnumerable<Potion> OrderedPotions(IEnumerable<Potion> originList)
         {
             if (originList.Any(p => p.potionType == PotionType.Core))
             {
@@ -82,7 +82,7 @@ namespace WarmSnow_SpeedRunHelper
             yield break;
         }
 
-        public Preset CreatePreset(Sect sect, int sectChose, Skill firstSkill, Potion potion1, Potion potion2)
+        public static Preset CreatePreset(Sect sect, int sectChose, Skill firstSkill, Potion potion1, Potion potion2)
         {
             return new Preset()
             {
@@ -97,7 +97,7 @@ namespace WarmSnow_SpeedRunHelper
             };
         }
 
-        public Preset CreatePreset()
+        public static Preset CreatePreset()
         {
             PlayerAnimControl player = PlayerAnimControl.instance;
             var playerSect = player.playerParameter.PLAYER_SECT;
@@ -238,7 +238,7 @@ namespace WarmSnow_SpeedRunHelper
                 };
             }
         }
-        public bool ApplyPreset(Preset preset)
+        public static bool ApplyPreset(Preset preset)
         {
             //Initialize Player Sects
             if (preset.SectChose >= 0)
@@ -335,5 +335,9 @@ namespace WarmSnow_SpeedRunHelper
         public PotionType Potion1Position { get; set; }
         public PN Potion2 { get; set; }
         public PotionType Potion2Position { get; set; }
+        public override string ToString()
+        {
+            return $"{Sect}:{SectChose},{TextControl.instance.SkillTitle(FirstSkillType, FirstSkill)},{Potion1}:{Potion1Position},{Potion2}:{Potion2Position}";
+        }
     }
 }

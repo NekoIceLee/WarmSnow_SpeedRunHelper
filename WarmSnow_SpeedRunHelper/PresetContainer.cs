@@ -1,4 +1,5 @@
-﻿using BepInEx.Configuration;
+﻿using BehaviorDesigner.Runtime.Tasks;
+using BepInEx.Configuration;
 using Epic.OnlineServices.Mods;
 using System;
 using System.Collections.Generic;
@@ -74,34 +75,27 @@ namespace WarmSnow_SpeedRunHelper
 
         public static Preset CreatePreset()
         {
-            Instance.LogInfo("GetCurrentSkill On Line 77");
             PlayerAnimControl player = PlayerAnimControl.instance;
-            Instance.LogInfo("GetCurrentSkill On Line 78");
             var playerSect = player.playerParameter.PLAYER_SECT;
-            Instance.LogInfo("GetCurrentSkill On Line 80");
             int sectchose = -1;
-            Instance.LogInfo("GetCurrentSkill On Line 82");
             var skilllist = SkillControl.instance.curSkills;
 
-            Instance.LogInfo("GetCurrentSkill On Line 112");
 
             Potion potion1 = new Potion(), potion2 = new Potion();
 
-            Instance.LogInfo("GetCurrentSkill On Line 116");
             var potions = from potion in PotionsSystemControl.instance.curPotions
                           where potion.PotionName != PN.None
                           select potion;
 
-            Instance.LogInfo("GetCurrentSkill On Line 120");
             potions = OrderedPotions(potions);
-            Instance.LogInfo("GetCurrentSkill On Line 123");
             curOrderedPotionList = potions.ToList();
-            potion1 = potions.First();
-            Instance.LogInfo("GetCurrentSkill On Line 125");
-            potion2 = potions.Skip(1).First();
+            potion1 = curOrderedPotionList.First();
+            if (curOrderedPotionList.Count > 1)
+            {
+                potion2 = curOrderedPotionList[1];
+            }
+            Debug.Log("test");
 
-
-            Instance.LogInfo("GetCurrentPotion On Line 123");
 
             switch (playerSect)
             {
@@ -184,7 +178,6 @@ namespace WarmSnow_SpeedRunHelper
                 default:
                     break;
             }
-            Instance.LogInfo("GetCurrentSect On Line 206");
 
             if (skilllist.Count == 0)//Not choose Sect
             {
@@ -233,7 +226,6 @@ namespace WarmSnow_SpeedRunHelper
         }
         public static bool ApplyPreset(Preset preset)
         {
-            Instance.LogInfo("ApplyPreset On Line 232");
             //Initialize Player Sects
             if (preset.SectChose >= 0)
             {
@@ -254,11 +246,9 @@ namespace WarmSnow_SpeedRunHelper
             }
 
 
-            Instance.LogInfo("ApplyPreset On Line 246");
             //Remove All Potions
             PotionDropPool.instance.MoveAway();
 
-            Instance.LogInfo("ApplyPreset On Line 250");
             //Remove All Generated Books
             var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
             foreach(var skillbookControl in skillbookControls)
@@ -266,7 +256,6 @@ namespace WarmSnow_SpeedRunHelper
                 (skillbookControl as SkillDropControl).gameObject.SetActive(false);
             }
 
-            Instance.LogInfo("ApplyPreset On Line 258");
             //Initialize Player First Book
             //if (preset.FirstSkill >= 0)
             //{
@@ -297,7 +286,6 @@ namespace WarmSnow_SpeedRunHelper
             //    skillLearn.ClickSkillCard(0);
             //}
 
-            Instance.LogInfo("ApplyPreset On Line 289");
             //Initialize Player Potion
 
             PotionsSystemControl potionControl = PotionsSystemControl.instance;
@@ -356,12 +344,6 @@ namespace WarmSnow_SpeedRunHelper
             }
 
             potionControl.PotionsExchange();
-                //potionControl.PotionOn(potion1);
-                //potionControl.PotionOn(potion2);
-                
-            
-
-
             return true;
         }
     }
@@ -369,14 +351,14 @@ namespace WarmSnow_SpeedRunHelper
     [Serializable]
     public class Preset
     {
-        public Sect Sect { get; set; }
-        public int SectChose { get; set; }
-        public int FirstSkill { get; set; }
-        public Sect FirstSkillType { get; set; }
-        public PN Potion1 { get; set; }
-        public PotionType Potion1Position { get; set; }
-        public PN Potion2 { get; set; }
-        public PotionType Potion2Position { get; set; }
+        public Sect Sect;
+        public int SectChose;
+        public int FirstSkill;
+        public Sect FirstSkillType;
+        public PN Potion1;
+        public PotionType Potion1Position;
+        public PN Potion2;
+        public PotionType Potion2Position;
         public override string ToString()
         {
             return $"{Sect}:{SectChose},{TextControl.instance.SkillTitle(FirstSkillType, FirstSkill)},{Potion1}:{Potion1Position},{Potion2}:{Potion2Position}";

@@ -29,11 +29,6 @@ namespace WarmSnow_SpeedRunHelper
         readonly ConfigDefinition preset4Def = new ConfigDefinition("Preset", "Preset4");
         readonly ConfigDefinition MainWindowPositionDef = new ConfigDefinition("Main", "MainWindowPosition");
 
-        public void Logout(string info)
-        {
-            
-        }
-
         Rect MainWindowPosition
         {
             get
@@ -114,10 +109,10 @@ namespace WarmSnow_SpeedRunHelper
     [Serializable]
     public struct SerializableRect
     {
-        public float X { get; set; }
-        public float Y { get; set; }
-        public float Height { get; set; }
-        public float Width { get; set; }
+        public float X;
+        public float Y;
+        public float Height;
+        public float Width;
         public Rect Rect 
         { 
             get

@@ -57,7 +57,7 @@ namespace WarmSnow_SpeedRunHelper
                 FinishThisRun();
                 return;
             }
-            if (arg1.name.ToUpper().Contains("BASEMENT"))
+            if (arg0.name.ToUpper().Contains("BASEMENT"))
             {
                 //start game event
                 if (fileWriter != null)

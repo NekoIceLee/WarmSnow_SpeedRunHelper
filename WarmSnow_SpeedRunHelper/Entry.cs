@@ -29,36 +29,36 @@ namespace WarmSnow_SpeedRunHelper
         readonly ConfigDefinition preset4Def = new ConfigDefinition("Preset", "Preset4");
         readonly ConfigDefinition MainWindowPositionDef = new ConfigDefinition("Main", "MainWindowPosition");
 
-        Rect MainWindowPosition
-        {
-            get
-            {
-                if (JsonUtility.FromJson<SerializableRect>(mainWndPositionJsonString.Value).X == 0)
-                {
-                    return new Rect(10, 10, 300, 500);
-                }
-                return JsonUtility.FromJson<SerializableRect>(mainWndPositionJsonString.Value).Rect;
-            }
-            set
-            {
-                var serobj = new SerializableRect();
-                serobj.Rect = value;
-                mainWndPositionJsonString.Value = JsonUtility.ToJson(serobj);
-            }
-        }
+        Rect MainWindowPosition { get; set; }
+        //{
+        //    get
+        //    {
+        //        if (JsonUtility.FromJson<SerializableRect>(mainWndPositionJsonString.Value).X == 0)
+        //        {
+        //            return new Rect(10, 10, 300, 500);
+        //        }
+        //        return JsonUtility.FromJson<SerializableRect>(mainWndPositionJsonString.Value).Rect;
+        //    }
+        //    set
+        //    {
+        //        var serobj = new SerializableRect();
+        //        serobj.Rect = value;
+        //        mainWndPositionJsonString.Value = JsonUtility.ToJson(serobj);
+        //    }
+        //}
 
         void Start()
         {
-            preset1JsonString = Config.Bind(preset1Def, "");
-            preset2JsonString = Config.Bind(preset2Def, "");
-            preset3JsonString = Config.Bind(preset3Def, "");
-            preset4JsonString = Config.Bind(preset4Def, "");
-            mainWndPositionJsonString = Config.Bind(MainWindowPositionDef, "");
+            //preset1JsonString = Config.Bind(preset1Def, "");
+            //preset2JsonString = Config.Bind(preset2Def, "");
+            //preset3JsonString = Config.Bind(preset3Def, "");
+            //preset4JsonString = Config.Bind(preset4Def, "");
+            //mainWndPositionJsonString = Config.Bind(MainWindowPositionDef, "");
 
-            PresetControl.Preset1 = JsonUtility.FromJson<Preset>(preset1JsonString.Value);
-            PresetControl.Preset2 = JsonUtility.FromJson<Preset>(preset2JsonString.Value);
-            PresetControl.Preset3 = JsonUtility.FromJson<Preset>(preset3JsonString.Value);
-            PresetControl.Preset4 = JsonUtility.FromJson<Preset>(preset4JsonString.Value);
+            //PresetControl.Preset1 = JsonUtility.FromJson<Preset>(preset1JsonString.Value);
+            //PresetControl.Preset2 = JsonUtility.FromJson<Preset>(preset2JsonString.Value);
+            //PresetControl.Preset3 = JsonUtility.FromJson<Preset>(preset3JsonString.Value);
+            //PresetControl.Preset4 = JsonUtility.FromJson<Preset>(preset4JsonString.Value);
 
             OnUpdate += TimeControl.Instance.Update;
             SceneManager.activeSceneChanged += MapLogger.Instance.SceneManager_activeSceneChanged;

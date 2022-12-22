@@ -281,9 +281,9 @@
     <Content Include="Managed\UnityEngine.XR.LegacyInputHelpers.dll" />
     <Content Include="Managed\UnityEngine.XRModule.dll" />
     <Content Include="Managed\XInputDotNetPure.dll" />
-    <Compile Include="Resources\MySql.Data.dll">
+    <Content Include="Resources\MySql.Data.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Compile>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Connected Services\" />

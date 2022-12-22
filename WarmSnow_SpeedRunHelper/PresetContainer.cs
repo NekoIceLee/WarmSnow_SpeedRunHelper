@@ -1,25 +1,28 @@
 ﻿using BehaviorDesigner.Runtime.Tasks;
 using BepInEx.Configuration;
 using Epic.OnlineServices.Mods;
+using HarmonyLib;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace WarmSnow_SpeedRunHelper
 {
-    public class PresetControl
+    public class PresetControl : MonoBehaviour
     {
         public static PresetControl Instance { get; set; } = new PresetControl();
-        public static Preset Preset1 { get; set; }
-        public static Preset Preset2 { get; set; }
-        public static Preset Preset3 { get; set; }
-        public static Preset Preset4 { get; set; }
+        public static Preset Preset1 { get; set; } = new Preset();
+        public static Preset Preset2 { get; set; } = new Preset();
+        public static Preset Preset3 { get; set; } = new Preset();
+        public static Preset Preset4 { get; set; } = new Preset();
 
         public delegate void LogInfoHandler(string message);
         public event LogInfoHandler LogInfo;
@@ -287,254 +290,279 @@ namespace WarmSnow_SpeedRunHelper
 
                 //skillLearn.ClickSkillCard(0);
 
-                PlayerParameter playerParameter = PlayerAnimControl.instance.playerParameter;
-                MenuSkillLearn skillLearn = MenuSkillLearn.instance;
-                var level = playerParameter.LEVEL;
-                playerParameter.LEVEL ++;
-                SkillControl.instance.SkillOn(preset.FirstSkillType, preset.FirstSkill);
-                skillLearn.CurrentSkillLayouts[level].SetActive(true);
-                LayoutRebuilder.ForceRebuildLayoutImmediate(skillLearn.CurrentSkillLayouts[level].parent.GetComponent<RectTransform>());
+                //PlayerParameter playerParameter = PlayerAnimControl.instance.playerParameter;
+                //MenuSkillLearn skillLearn = MenuSkillLearn.instance;
+                //var level = playerParameter.LEVEL;
+                //playerParameter.LEVEL ++;
+                //SkillControl.instance.SkillOn(preset.FirstSkillType, preset.FirstSkill);
+                //skillLearn.CurrentSkillLayouts[level].SetActive(true);
+                //LayoutRebuilder.ForceRebuildLayoutImmediate(skillLearn.CurrentSkillLayouts[level].parent.GetComponent<RectTransform>());
 
-                var skill = preset.FirstSkill;
-                var index = 0;
-                int num = 0;
+                //var skill = preset.FirstSkill;
+                //var index = 0;
+                //int num = 0;
 
-                GameObject skillobj = null;
-                switch (preset.FirstSkillType)
-                {
-                    case Sect.None:
-                        break;
-                    case Sect.Berserk:
-                        {
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.BerserkSkills[skill], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-
-                        break;
-                    case Sect.SwordMaster:
-                        {
-                            if (skill == 6)
-                            {
-                                if (PlayerAnimControl.instance.SWORDMASTER_SKILL_GUANRI)
-                                {
-                                    num = 11;
-                                }
-                                else
-                                {
-                                    num = 6;
-                                }
-                            }
-                            else if (skill >= 11)
-                            {
-                                num = skill + 1;
-                            }
-                            else
-                            {
-                                num = skill;
-                            }
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.swordMasterSkills[num], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    case Sect.DrunkMaster:
-                        {
-                            if (skill >= 9)
-                            {
-                                if (skill == 9)
-                                {
-                                    if (PlayerAnimControl.instance.DRUNKMASTER_SKILL_WineOfDragon)
-                                    {
-                                        num = 12;
-                                    }
-                                    else
-                                    {
-                                        num = 9;
-                                    }
-                                }
-                                else if (skill == 10)
-                                {
-                                    if (PlayerAnimControl.instance.DRUNKMASTER_SKILL_WineOfSnake)
-                                    {
-                                        num = 10;
-                                    }
-                                    else
-                                    {
-                                        num = 11;
-                                    }
-                                }
-                                else if (skill >= 11)
-                                {
-                                    num = skill + 2;
-                                }
-                            }
-                            else
-                            {
-                                num = skill;
-                            }
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.drunkMasterSkills[num], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    case Sect.ThunderGod:
-                        {
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.thunderGodSkills[skill], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    case Sect.Venomancer:
-                        {
-                            if (skill == 7)
-                            {
-                                if (PlayerAnimControl.instance.POISONMASTER_SKILL_BloodSpray)
-                                {
-                                    num = 7;
-                                }
-                                else
-                                {
-                                    num = 11;
-                                }
-                            }
-                            else if (skill >= 11)
-                            {
-                                num = skill + 1;
-                            }
-                            else
-                            {
-                                num = skill;
-                            }
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.VenomancerSkills[num], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    case Sect.FrozenMaster:
-                        {
-                            if (skill == 4)
-                            {
-                                if (PlayerAnimControl.instance.FROZENMASTER_SKILL_ChilledToBone)
-                                {
-                                    num = 4;
-                                }
-                                else
-                                {
-                                    num = 11;
-                                }
-                            }
-                            else if (skill >= 11)
-                            {
-                                num = skill + 1;
-                            }
-                            else
-                            {
-                                num = skill;
-                            }
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.FrozenMasterSkills[num], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    case Sect.CommonSkill:
-                        {
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.CommonSkills[skill], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    case Sect.Assassin:
-                        {
-                            if (skill == 3)
-                            {
-                                if (PlayerAnimControl.instance.ASSASSIN_SKILL_ShenXing)
-                                {
-                                    num = 3;
-                                }
-                                else
-                                {
-                                    num = 15;
-                                }
-                            }
-                            else if (skill == 10)
-                            {
-                                if (PlayerAnimControl.instance.ASSASSIN_SKILL_ShenXing)
-                                {
-                                    num = 10;
-                                }
-                                else
-                                {
-                                    num = 16;
-                                }
-                            }
-                            else if (skill == 11)
-                            {
-                                if (PlayerAnimControl.instance.ASSASSIN_SKILL_ShenXing)
-                                {
-                                    num = 11;
-                                }
-                                else
-                                {
-                                    num = 17;
-                                }
-                            }
-                            else
-                            {
-                                num = skill;
-                            }
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.AssassinSkills[num], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    case Sect.Nightmare:
-                        {
-                            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.NightmareSkills[skill], skillLearn.Panels[index]);
-                            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
-                            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
-                        }
-                        break;
-                    default:
-                        break;
-                }
-                //GameObject gameObject2 = null;
+                //GameObject skillobj = null;
                 //switch (preset.FirstSkillType)
                 //{
+                //    case Sect.None:
+                //        break;
                 //    case Sect.Berserk:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_Berserk);
+                //        {
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.BerserkSkills[skill], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
+
                 //        break;
                 //    case Sect.SwordMaster:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_SwordMaster);
+                //        {
+                //            if (skill == 6)
+                //            {
+                //                if (PlayerAnimControl.instance.SWORDMASTER_SKILL_GUANRI)
+                //                {
+                //                    num = 11;
+                //                }
+                //                else
+                //                {
+                //                    num = 6;
+                //                }
+                //            }
+                //            else if (skill >= 11)
+                //            {
+                //                num = skill + 1;
+                //            }
+                //            else
+                //            {
+                //                num = skill;
+                //            }
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.swordMasterSkills[num], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
                 //        break;
                 //    case Sect.DrunkMaster:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_DrunkMaster);
+                //        {
+                //            if (skill >= 9)
+                //            {
+                //                if (skill == 9)
+                //                {
+                //                    if (PlayerAnimControl.instance.DRUNKMASTER_SKILL_WineOfDragon)
+                //                    {
+                //                        num = 12;
+                //                    }
+                //                    else
+                //                    {
+                //                        num = 9;
+                //                    }
+                //                }
+                //                else if (skill == 10)
+                //                {
+                //                    if (PlayerAnimControl.instance.DRUNKMASTER_SKILL_WineOfSnake)
+                //                    {
+                //                        num = 10;
+                //                    }
+                //                    else
+                //                    {
+                //                        num = 11;
+                //                    }
+                //                }
+                //                else if (skill >= 11)
+                //                {
+                //                    num = skill + 2;
+                //                }
+                //            }
+                //            else
+                //            {
+                //                num = skill;
+                //            }
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.drunkMasterSkills[num], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
                 //        break;
                 //    case Sect.ThunderGod:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_ThunderGod);
+                //        {
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.thunderGodSkills[skill], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
                 //        break;
                 //    case Sect.Venomancer:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_Venomancer);
+                //        {
+                //            if (skill == 7)
+                //            {
+                //                if (PlayerAnimControl.instance.POISONMASTER_SKILL_BloodSpray)
+                //                {
+                //                    num = 7;
+                //                }
+                //                else
+                //                {
+                //                    num = 11;
+                //                }
+                //            }
+                //            else if (skill >= 11)
+                //            {
+                //                num = skill + 1;
+                //            }
+                //            else
+                //            {
+                //                num = skill;
+                //            }
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.VenomancerSkills[num], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
                 //        break;
                 //    case Sect.FrozenMaster:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_FrozenMaster);
+                //        {
+                //            if (skill == 4)
+                //            {
+                //                if (PlayerAnimControl.instance.FROZENMASTER_SKILL_ChilledToBone)
+                //                {
+                //                    num = 4;
+                //                }
+                //                else
+                //                {
+                //                    num = 11;
+                //                }
+                //            }
+                //            else if (skill >= 11)
+                //            {
+                //                num = skill + 1;
+                //            }
+                //            else
+                //            {
+                //                num = skill;
+                //            }
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.FrozenMasterSkills[num], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
                 //        break;
                 //    case Sect.CommonSkill:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_CommonSkill);
+                //        {
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.CommonSkills[skill], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
                 //        break;
                 //    case Sect.Assassin:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_Assassin);
+                //        {
+                //            if (skill == 3)
+                //            {
+                //                if (PlayerAnimControl.instance.ASSASSIN_SKILL_ShenXing)
+                //                {
+                //                    num = 3;
+                //                }
+                //                else
+                //                {
+                //                    num = 15;
+                //                }
+                //            }
+                //            else if (skill == 10)
+                //            {
+                //                if (PlayerAnimControl.instance.ASSASSIN_SKILL_ShenXing)
+                //                {
+                //                    num = 10;
+                //                }
+                //                else
+                //                {
+                //                    num = 16;
+                //                }
+                //            }
+                //            else if (skill == 11)
+                //            {
+                //                if (PlayerAnimControl.instance.ASSASSIN_SKILL_ShenXing)
+                //                {
+                //                    num = 11;
+                //                }
+                //                else
+                //                {
+                //                    num = 17;
+                //                }
+                //            }
+                //            else
+                //            {
+                //                num = skill;
+                //            }
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.AssassinSkills[num], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
                 //        break;
                 //    case Sect.Nightmare:
-                //        gameObject2 = UnityEngine.Object.Instantiate<GameObject>(skillLearn.SkillOnEffect_NightmareSkill);
+                //        {
+                //            skillobj = UnityEngine.Object.Instantiate<GameObject>(skillLearn.NightmareSkills[skill], skillLearn.Panels[index]);
+                //            skillobj.transform.localPosition = new Vector3(0f, 160f, 0f);
+                //            skillobj.transform.localScale = new Vector3(2f, 2f, 1f);
+                //        }
+                //        break;
+                //    default:
                 //        break;
                 //}
-                //gameObject2.transform.position = skillLearn.CurrentSkillLayouts[level].transform.position + new Vector3(0f, 0f, -2f);
-                UI_CurSkillDescribe component = skillobj.GetComponent<UI_CurSkillDescribe>();
-                component.isOn = true;
-                MenuPotionExchange.instance.menuSkillDescribe.Add(component);
-                skillLearn.skillDescribe.Add(component);
+                //if (skillobj == null)
+                //{
+                //    Instance.LogInfo("skill obj is null");
+                //}
+                //else
+                //{
+                //    Instance.LogInfo(skillobj.ToString());
+                //}
+                //UI_CurSkillDescribe component = skillobj.GetComponent<UI_CurSkillDescribe>();
+                //component.isOn = true;
+                //MenuPotionExchange.instance.menuSkillDescribe.Add(component);
+                //skillLearn.skillDescribe.Add(component);
 
+                var skilllearn = MenuSkillLearn.instance;
+
+                var commonskillbackup = new List<int>(skilllearn.CommonRandomSkill);
+                var nightmareskillbackup = new List<int>(skilllearn.NightmareRandomSkill);
+                var sectskillbackup = new List<int>(skilllearn.SectRandomSkill);
+
+                switch(preset.FirstSkillType)
+                {
+                    case Sect.CommonSkill:
+                        skilllearn.CommonRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
+                        skilllearn.NightmareRandomSkill = new List<int>();
+                        skilllearn.SectRandomSkill = new List<int> { };
+                        break;
+                    case Sect.Nightmare:
+                        skilllearn.isNightmareBook = true;
+                        skilllearn.CommonRandomSkill = new List<int> {  };
+                        skilllearn.NightmareRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
+                        skilllearn.SectRandomSkill = new List<int> { };
+                        break;
+                    default:
+                        skilllearn.isGoldenBook = true;
+                        skilllearn.CommonRandomSkill = new List<int> { };
+                        skilllearn.NightmareRandomSkill = new List<int>();
+                        skilllearn.SectRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
+                        break;
+                }
+
+                //skilllearn.isOn = true;
+
+                skilllearn.On();
+
+                skilllearn.CommonRandomSkill = commonskillbackup;
+                skilllearn.NightmareRandomSkill = nightmareskillbackup;
+                skilllearn.SectRandomSkill = sectskillbackup;
+
+                switch (preset.FirstSkillType)
+                {
+                    case Sect.CommonSkill:
+                        skilllearn.CommonRandomSkill.Remove(preset.FirstSkill);
+                        break;
+                    case Sect.Nightmare:
+                        skilllearn.isNightmareBook = false;
+                        skilllearn.NightmareRandomSkill.Remove(preset.FirstSkill);
+                        break;
+                    default:
+                        skilllearn.isGoldenBook = false;
+                        skilllearn.SectRandomSkill.Remove(preset.FirstSkill);
+                        break;
+                }
             }
 
             //Initialize Player Potion
@@ -597,6 +625,7 @@ namespace WarmSnow_SpeedRunHelper
             potionControl.PotionsExchange();
             return true;
         }
+
     }
 
     [Serializable]

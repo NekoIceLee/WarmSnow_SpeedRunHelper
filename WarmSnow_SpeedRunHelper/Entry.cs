@@ -29,7 +29,7 @@ namespace WarmSnow_SpeedRunHelper
         readonly ConfigDefinition preset4Def = new ConfigDefinition("Preset", "Preset4");
         readonly ConfigDefinition MainWindowPositionDef = new ConfigDefinition("Main", "MainWindowPosition");
 
-        Rect MainWindowPosition { get; set; }
+        Rect MainWindowPosition { get; set; } = new Rect(10, 10, 300, 500);
         //{
         //    get
         //    {

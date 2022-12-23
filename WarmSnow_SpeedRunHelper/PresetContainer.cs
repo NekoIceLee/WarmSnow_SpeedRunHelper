@@ -387,7 +387,80 @@ namespace WarmSnow_SpeedRunHelper
         public PotionType Potion2Position;
         public override string ToString()
         {
-            return $"{Sect}:{SectChose},{TextControl.instance.SkillTitle(FirstSkillType, FirstSkill)},{Potion1}:{Potion1Position},{Potion2}:{Potion2Position}";
+            return $"{GetSectTitle(Sect, SectChose)}," +
+                $"{TextControl.instance.SkillTitle(FirstSkillType, FirstSkill)}," +
+                $"{GetPotionTitle(Potion1)}:{GetPotionPositionName(Potion1Position)}," +
+                $"{GetPotionTitle(Potion2)}:{GetPotionPositionName(Potion2Position)}";
+        }
+        public static string GetPotionPositionName(PotionType type)
+        {
+            return type switch
+            {
+                PotionType.Core => "核心",
+                PotionType.Strength => "力量",
+                PotionType.Agility => "敏捷",
+                PotionType.Constitution => "功效",
+                _ => "未知",
+            };
+        }
+        public static string GetPotionTitle(PN potion)
+        {
+            int potionName = (int)potion;
+            string handle = "PN_NAME_" + potionName;
+            string text = Localization.Instance.GetLocalizedText(handle);
+            return text;
+        }
+        public static string GetSectTitle(Sect sect, int sectChose)
+        {
+            return sect switch
+            {
+                Sect.Berserk => sectChose switch
+                {
+                    1 => "1-连击",
+                    2 => "2-无影",
+                    _ => "未选择",
+                },
+                Sect.SwordMaster => sectChose switch
+                {
+                    1 => "1-无量",
+                    2 => "2-贯日",
+                    _ => "未选择",
+                },
+                Sect.DrunkMaster => sectChose switch
+                {
+                    1 => "1-酒染",
+                    2 => "2-醉歌",
+                    _ => "未选择",
+                },
+                Sect.ThunderGod => sectChose switch
+                {
+                    1 => "1-迅影",
+                    2 => "2-蛮雷",
+                    _ => "未选择",
+                },
+                Sect.Venomancer => sectChose switch
+                {
+                    1 => "1-血溅",
+                    2 => "2-缠蛊",
+                    _ => "未选择",
+                },
+                Sect.FrozenMaster => sectChose switch
+                {
+                    1 => "1-刺骨",
+                    2 => "2-白霜",
+                    _ => "未选择",
+                },
+                Sect.Assassin => sectChose switch
+                {
+                    1 => "1-神行",
+                    2 => "2-迷踪",
+                    _ => "未选择",
+                },
+                Sect.None => "未选择",
+                Sect.CommonSkill => "",
+                Sect.Nightmare => "",
+                _ => "",
+            };
         }
     }
 }

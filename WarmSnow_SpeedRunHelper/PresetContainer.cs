@@ -345,6 +345,19 @@ namespace WarmSnow_SpeedRunHelper
                 SkillControl.instance.SkillOn(sect, 0);
                 SkillControl.instance.SkillOn(sect, sectChosen);
                 UI_CurrentSkillBar.instance.SkillPanelOn(sect, isLeft: false);
+                UI_SectChoose.instance.hasChoose = true;
+
+                var buddhas = GameObject.FindObjectsOfType<BuddhaStatueControl>();
+                var currentBuddha = buddhas.FirstOrDefault(bud => bud.sect == sect);
+
+                foreach(var buddha in buddhas)
+                {
+                    if (buddha == currentBuddha)
+                    {
+                        PresetControl.Instance.StartCoroutine(new Traverse(buddha).Method("BuddhaStatueLight").GetValue<IEnumerator>());
+                    }
+                }
+
             }
 
 

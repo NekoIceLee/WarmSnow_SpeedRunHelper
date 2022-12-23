@@ -40,6 +40,112 @@ namespace WarmSnow_SpeedRunHelper
             HelperMainModule.preset4JsonString.Value = JsonUtility.ToJson(Preset4);
         }
 
+    }
+
+    [Serializable]
+    public class Preset
+    {
+        public Sect Sect;
+        public int SectChose;
+        public int FirstSkill;
+        public Sect FirstSkillType;
+        public PN Potion1;
+        public PotionType Potion1Position;
+        public PN Potion2;
+        public PotionType Potion2Position;
+        public override string ToString()
+        {
+            return $"{GetSectTitle(Sect, SectChose)}," +
+                $"{TextControl.instance.SkillTitle(FirstSkillType, FirstSkill)}," +
+                $"{GetPotionTitle(Potion1)}:{GetPotionPositionName(Potion1Position)}," +
+                $"{GetPotionTitle(Potion2)}:{GetPotionPositionName(Potion2Position)}";
+        }
+        public bool ApplyPreset()
+        {
+            return ApplyPreset(this);
+        }
+        public void GenToThisPreset()
+        {
+            var gen = CreatePreset();
+            Sect = gen.Sect;
+            SectChose = gen.SectChose;
+            FirstSkill = gen.FirstSkill;
+            FirstSkillType = gen.FirstSkillType;
+            Potion1Position = gen.Potion1Position;
+            Potion2Position = gen.Potion2Position;
+            Potion1 = gen.Potion1;
+            Potion2 = gen.Potion2;
+        }
+        public static string GetPotionPositionName(PotionType type)
+        {
+            return type switch
+            {
+                PotionType.Core => "核心",
+                PotionType.Strength => "力量",
+                PotionType.Agility => "敏捷",
+                PotionType.Constitution => "功效",
+                _ => "未知",
+            };
+        }
+        public static string GetPotionTitle(PN potion)
+        {
+            int potionName = (int)potion;
+            string handle = "PN_NAME_" + potionName;
+            string text = Localization.Instance.GetLocalizedText(handle);
+            return text;
+        }
+        public static string GetSectTitle(Sect sect, int sectChose)
+        {
+            return sect switch
+            {
+                Sect.Berserk => sectChose switch
+                {
+                    1 => "1-连击",
+                    2 => "2-无影",
+                    _ => "未选择",
+                },
+                Sect.SwordMaster => sectChose switch
+                {
+                    1 => "1-无量",
+                    2 => "2-贯日",
+                    _ => "未选择",
+                },
+                Sect.DrunkMaster => sectChose switch
+                {
+                    1 => "1-酒染",
+                    2 => "2-醉歌",
+                    _ => "未选择",
+                },
+                Sect.ThunderGod => sectChose switch
+                {
+                    1 => "1-迅影",
+                    2 => "2-蛮雷",
+                    _ => "未选择",
+                },
+                Sect.Venomancer => sectChose switch
+                {
+                    1 => "1-血溅",
+                    2 => "2-缠蛊",
+                    _ => "未选择",
+                },
+                Sect.FrozenMaster => sectChose switch
+                {
+                    1 => "1-刺骨",
+                    2 => "2-白霜",
+                    _ => "未选择",
+                },
+                Sect.Assassin => sectChose switch
+                {
+                    1 => "1-神行",
+                    2 => "2-迷踪",
+                    _ => "未选择",
+                },
+                Sect.None => "未选择",
+                Sect.CommonSkill => "",
+                Sect.Nightmare => "",
+                _ => "",
+            };
+        }
         static IEnumerable<Potion> OrderedPotions(IEnumerable<Potion> originList)
         {
             if (originList.Any(p => p.potionType == PotionType.Core))
@@ -60,7 +166,6 @@ namespace WarmSnow_SpeedRunHelper
             }
             yield break;
         }
-
         public static Preset CreatePreset(Sect sect, int sectChose, Skill firstSkill, Potion potion1, Potion potion2)
         {
             return new Preset()
@@ -75,9 +180,6 @@ namespace WarmSnow_SpeedRunHelper
                 Potion2Position = potion2.potionType,
             };
         }
-
-        public static List<Potion> curOrderedPotionList { get; set; }
-
         public static Preset CreatePreset()
         {
             PlayerAnimControl player = PlayerAnimControl.instance;
@@ -93,15 +195,15 @@ namespace WarmSnow_SpeedRunHelper
                           select potion;
 
             potions = OrderedPotions(potions);
-            curOrderedPotionList = potions.ToList();
-            potion1 = curOrderedPotionList.First();
-            if (curOrderedPotionList.Count > 1)
+            if (potions.Any())
             {
-                potion2 = curOrderedPotionList[1];
+                potion1 = potions.First();
+                if (potions.Count() > 1)
+                {
+                    potion2 = potions.Skip(1).First();
+                }
+
             }
-            Debug.Log("test");
-
-
             switch (playerSect)
             {
                 case Sect.None:
@@ -251,7 +353,7 @@ namespace WarmSnow_SpeedRunHelper
 
             //Remove All Generated Books
             var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
-            foreach(var skillbookControl in skillbookControls)
+            foreach (var skillbookControl in skillbookControls)
             {
                 (skillbookControl as SkillDropControl).gameObject.SetActive(false);
             }
@@ -266,7 +368,7 @@ namespace WarmSnow_SpeedRunHelper
                 var nightmareskillbackup = new List<int>(skilllearn.NightmareRandomSkill);
                 var sectskillbackup = new List<int>(skilllearn.SectRandomSkill);
 
-                switch(preset.FirstSkillType)
+                switch (preset.FirstSkillType)
                 {
                     case Sect.CommonSkill:
                         skilllearn.CommonRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
@@ -275,7 +377,7 @@ namespace WarmSnow_SpeedRunHelper
                         break;
                     case Sect.Nightmare:
                         skilllearn.isNightmareBook = true;
-                        skilllearn.CommonRandomSkill = new List<int> {  };
+                        skilllearn.CommonRandomSkill = new List<int> { };
                         skilllearn.NightmareRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
                         skilllearn.SectRandomSkill = new List<int> { };
                         break;
@@ -371,113 +473,5 @@ namespace WarmSnow_SpeedRunHelper
             potionControl.PotionsExchange();
             return true;
         }
-
-    }
-
-    [Serializable]
-    public class Preset
-    {
-        public Sect Sect;
-        public int SectChose;
-        public int FirstSkill;
-        public Sect FirstSkillType;
-        public PN Potion1;
-        public PotionType Potion1Position;
-        public PN Potion2;
-        public PotionType Potion2Position;
-        public override string ToString()
-        {
-            return $"{GetSectTitle(Sect, SectChose)}," +
-                $"{TextControl.instance.SkillTitle(FirstSkillType, FirstSkill)}," +
-                $"{GetPotionTitle(Potion1)}:{GetPotionPositionName(Potion1Position)}," +
-                $"{GetPotionTitle(Potion2)}:{GetPotionPositionName(Potion2Position)}";
-        }
-        public bool ApplyPreset()
-        {
-            return PresetControl.ApplyPreset(this);
-        }
-        public void GenToThisPreset()
-        {
-            var gen = PresetControl.CreatePreset();
-            Sect = gen.Sect;
-            SectChose = gen.SectChose;
-            FirstSkill = gen.FirstSkill;
-            FirstSkillType = gen.FirstSkillType;
-            Potion1Position = gen.Potion1Position;
-            Potion2Position = gen.Potion2Position;
-            Potion1 = gen.Potion1;
-            Potion2 = gen.Potion2;
-        }
-        public static string GetPotionPositionName(PotionType type)
-        {
-            return type switch
-            {
-                PotionType.Core => "核心",
-                PotionType.Strength => "力量",
-                PotionType.Agility => "敏捷",
-                PotionType.Constitution => "功效",
-                _ => "未知",
-            };
-        }
-        public static string GetPotionTitle(PN potion)
-        {
-            int potionName = (int)potion;
-            string handle = "PN_NAME_" + potionName;
-            string text = Localization.Instance.GetLocalizedText(handle);
-            return text;
-        }
-        public static string GetSectTitle(Sect sect, int sectChose)
-        {
-            return sect switch
-            {
-                Sect.Berserk => sectChose switch
-                {
-                    1 => "1-连击",
-                    2 => "2-无影",
-                    _ => "未选择",
-                },
-                Sect.SwordMaster => sectChose switch
-                {
-                    1 => "1-无量",
-                    2 => "2-贯日",
-                    _ => "未选择",
-                },
-                Sect.DrunkMaster => sectChose switch
-                {
-                    1 => "1-酒染",
-                    2 => "2-醉歌",
-                    _ => "未选择",
-                },
-                Sect.ThunderGod => sectChose switch
-                {
-                    1 => "1-迅影",
-                    2 => "2-蛮雷",
-                    _ => "未选择",
-                },
-                Sect.Venomancer => sectChose switch
-                {
-                    1 => "1-血溅",
-                    2 => "2-缠蛊",
-                    _ => "未选择",
-                },
-                Sect.FrozenMaster => sectChose switch
-                {
-                    1 => "1-刺骨",
-                    2 => "2-白霜",
-                    _ => "未选择",
-                },
-                Sect.Assassin => sectChose switch
-                {
-                    1 => "1-神行",
-                    2 => "2-迷踪",
-                    _ => "未选择",
-                },
-                Sect.None => "未选择",
-                Sect.CommonSkill => "",
-                Sect.Nightmare => "",
-                _ => "",
-            };
-        }
-        
     }
 }

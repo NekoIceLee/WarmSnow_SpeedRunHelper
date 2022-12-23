@@ -231,13 +231,13 @@ namespace WarmSnow_SpeedRunHelper
         }
         public static bool ApplyPreset(Preset preset)
         {
+            PlayerAnimControl.instance.BringBackToLife();
             //Initialize Player Sects
             if (preset.SectChose >= 0)
             {
                 Sect sect = preset.Sect;
                 int sectChosen = preset.SectChose;
 
-                PlayerAnimControl.instance.BringBackToLife();
 
                 PlayerAnimControl.instance.playerParameter.LEVEL++;
                 SkillControl.instance.SkillOn(sect, 0);

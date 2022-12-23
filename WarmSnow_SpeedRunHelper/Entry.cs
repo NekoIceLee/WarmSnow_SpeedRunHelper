@@ -49,16 +49,16 @@ namespace WarmSnow_SpeedRunHelper
 
         void Start()
         {
-            //preset1JsonString = Config.Bind(preset1Def, "");
-            //preset2JsonString = Config.Bind(preset2Def, "");
-            //preset3JsonString = Config.Bind(preset3Def, "");
-            //preset4JsonString = Config.Bind(preset4Def, "");
+            preset1JsonString = Config.Bind(preset1Def, "");
+            preset2JsonString = Config.Bind(preset2Def, "");
+            preset3JsonString = Config.Bind(preset3Def, "");
+            preset4JsonString = Config.Bind(preset4Def, "");
             //mainWndPositionJsonString = Config.Bind(MainWindowPositionDef, "");
 
-            //PresetControl.Preset1 = JsonUtility.FromJson<Preset>(preset1JsonString.Value);
-            //PresetControl.Preset2 = JsonUtility.FromJson<Preset>(preset2JsonString.Value);
-            //PresetControl.Preset3 = JsonUtility.FromJson<Preset>(preset3JsonString.Value);
-            //PresetControl.Preset4 = JsonUtility.FromJson<Preset>(preset4JsonString.Value);
+            PresetControl.Preset1 = JsonUtility.FromJson<Preset>(preset1JsonString.Value);
+            PresetControl.Preset2 = JsonUtility.FromJson<Preset>(preset2JsonString.Value);
+            PresetControl.Preset3 = JsonUtility.FromJson<Preset>(preset3JsonString.Value);
+            PresetControl.Preset4 = JsonUtility.FromJson<Preset>(preset4JsonString.Value);
 
             OnUpdate += TimeControl.Instance.Update;
             SceneManager.activeSceneChanged += MapLogger.Instance.SceneManager_activeSceneChanged;
@@ -88,18 +88,18 @@ namespace WarmSnow_SpeedRunHelper
         {
             GUILayout.Label(TimeControl.Instance.StrTime);
             GUILayout.Label($"ContinueTimeGo: {TimeControl.Instance.ContinueTimeGo}");
-            GUILayout.Label($"CurrentFrameRate: {Time.unscaledDeltaTime}");
+            GUILayout.Label($"CurrentFrameRate: {1 / Time.unscaledDeltaTime}");
 
 
             if (GUILayout.Button("GenPreset1"))
             {
-                PresetControl.Preset1 = PresetControl.CreatePreset();
+                PresetControl.Preset1 = Preset.CreatePreset();
                 PresetControl.SavePresets();
             }
             GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(400));
             if (GUILayout.Button("ApplyPreset1"))
             {
-                PresetControl.ApplyPreset(PresetControl.Preset1);
+                PresetControl.Preset1.ApplyPreset();
             }
 
             GUI.DragWindow();

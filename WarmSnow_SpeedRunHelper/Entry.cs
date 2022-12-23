@@ -47,6 +47,16 @@ namespace WarmSnow_SpeedRunHelper
         //    }
         //}
 
+        GUIStyle GUITimeStyle { get; } = new GUIStyle
+        {
+            font = Localization.Instance.CurrentLangAsset.textFont,
+            fontSize = 32,
+            fontStyle = FontStyle.Bold,
+            alignment = TextAnchor.MiddleCenter,
+            wordWrap = true,
+            
+        };
+
         void Start()
         {
             preset1JsonString = Config.Bind(preset1Def, "");
@@ -86,8 +96,7 @@ namespace WarmSnow_SpeedRunHelper
 
         void GUIMainWindow(int id)
         {
-            GUILayout.Label(TimeControl.Instance.StrTime);
-            GUILayout.Label($"ContinueTimeGo: {TimeControl.Instance.ContinueTimeGo}");
+            GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle);
             GUILayout.Label($"CurrentFrameRate: {1 / Time.unscaledDeltaTime:0.0#}");
 
 

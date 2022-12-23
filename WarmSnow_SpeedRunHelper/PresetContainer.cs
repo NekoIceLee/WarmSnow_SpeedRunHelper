@@ -392,6 +392,22 @@ namespace WarmSnow_SpeedRunHelper
                 $"{GetPotionTitle(Potion1)}:{GetPotionPositionName(Potion1Position)}," +
                 $"{GetPotionTitle(Potion2)}:{GetPotionPositionName(Potion2Position)}";
         }
+        public bool ApplyPreset()
+        {
+            return PresetControl.ApplyPreset(this);
+        }
+        public void GenToThisPreset()
+        {
+            var gen = PresetControl.CreatePreset();
+            Sect = gen.Sect;
+            SectChose = gen.SectChose;
+            FirstSkill = gen.FirstSkill;
+            FirstSkillType = gen.FirstSkillType;
+            Potion1Position = gen.Potion1Position;
+            Potion2Position = gen.Potion2Position;
+            Potion1 = gen.Potion1;
+            Potion2 = gen.Potion2;
+        }
         public static string GetPotionPositionName(PotionType type)
         {
             return type switch
@@ -462,5 +478,6 @@ namespace WarmSnow_SpeedRunHelper
                 _ => "",
             };
         }
+        
     }
 }

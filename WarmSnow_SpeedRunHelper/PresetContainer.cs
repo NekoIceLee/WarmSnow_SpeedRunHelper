@@ -60,6 +60,13 @@ namespace WarmSnow_SpeedRunHelper
                 $"{GetPotionTitle(Potion1)}:{GetPotionPositionName(Potion1Position)}," +
                 $"{GetPotionTitle(Potion2)}:{GetPotionPositionName(Potion2Position)}";
         }
+        public bool IsNotNull
+        {
+            get
+            {
+                return Sect != Sect.None || FirstSkill >= 0 || Potion1 > PN.None || Potion2 > PN.None;
+            }
+        }
         public bool ApplyPreset()
         {
             return ApplyPreset(this);
@@ -358,17 +365,12 @@ namespace WarmSnow_SpeedRunHelper
                     }
                 }
 
-            }
-
-
-            //Remove All Potions
-            PotionDropPool.instance.MoveAway();
-
-            //Remove All Generated Books
-            var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
-            foreach (var skillbookControl in skillbookControls)
-            {
-                (skillbookControl as SkillDropControl).gameObject.SetActive(false);
+                //Remove All Generated Books
+                var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
+                foreach (var skillbookControl in skillbookControls)
+                {
+                    (skillbookControl as SkillDropControl).gameObject.SetActive(false);
+                }
             }
 
             //Initialize Player First Book
@@ -484,6 +486,23 @@ namespace WarmSnow_SpeedRunHelper
             }
 
             potionControl.PotionsExchange();
+
+            if (potion1.potionType != PotionType.None && potion1.potionType != PotionType.None)
+            {
+                //Remove All Potions
+                PotionDropPool.instance.MoveAway();
+                PlayerAnimControl.instance.MementoRefine_FirstSuperRarePotion_On = false;
+            }
+            else if (potion1.potionType != PotionType.None || potion1.potionType != PotionType.None)
+            {
+                //Remove All Potions
+                PotionDropPool.instance.MoveAway();
+            }
+            else
+            {
+
+            }
+
             return true;
         }
     }

@@ -88,7 +88,7 @@ namespace WarmSnow_SpeedRunHelper
         {
             GUILayout.Label(TimeControl.Instance.StrTime);
             GUILayout.Label($"ContinueTimeGo: {TimeControl.Instance.ContinueTimeGo}");
-            GUILayout.Label($"CurrentFrameRate: {1 / Time.unscaledDeltaTime}");
+            GUILayout.Label($"CurrentFrameRate: {1 / Time.unscaledDeltaTime:0.0#}");
 
 
             if (GUILayout.Button("GenPreset1"))
@@ -96,8 +96,9 @@ namespace WarmSnow_SpeedRunHelper
                 PresetControl.Preset1 = Preset.CreatePreset();
                 PresetControl.SavePresets();
             }
-            GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(400));
-            if (GUILayout.Button("ApplyPreset1"))
+            GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(100));
+            
+            if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
             {
                 PresetControl.Preset1.ApplyPreset();
             }

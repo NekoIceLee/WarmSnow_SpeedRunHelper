@@ -2,6 +2,7 @@
 using BepInEx.Configuration;
 using Epic.OnlineServices.Mods;
 using HarmonyLib;
+using NightmareMode;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -338,15 +339,18 @@ namespace WarmSnow_SpeedRunHelper
                 };
             }
         }
-        public static bool ApplyPreset(Preset preset)
+        public static IEnumerator IEApplyPreset(Preset preset)
         {
             PlayerAnimControl.instance.BringBackToLife();
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+            yield return new WaitForFixedUpdate();
+
             //Initialize Player Sects
             if (preset.SectChose >= 0)
             {
                 Sect sect = preset.Sect;
                 int sectChosen = preset.SectChose;
-
 
                 PlayerAnimControl.instance.playerParameter.LEVEL++;
                 SkillControl.instance.SkillOn(sect, 0);
@@ -357,20 +361,30 @@ namespace WarmSnow_SpeedRunHelper
                 var buddhas = GameObject.FindObjectsOfType<BuddhaStatueControl>();
                 var currentBuddha = buddhas.FirstOrDefault(bud => bud.sect == sect);
 
-                foreach(var buddha in buddhas)
-                {
-                    if (buddha == currentBuddha)
-                    {
-                        PresetControl.Instance.StartCoroutine(new Traverse(buddha).Method("BuddhaStatueLight").GetValue<IEnumerator>());
-                    }
-                }
+                //foreach(var buddha in buddhas)
+                //{
+                //    if (buddha == currentBuddha)
+                //    {
+                //        PresetControl.Instance.StartCoroutine(new Traverse(currentBuddha).Method("BuddhaStatueLight").GetValue<IEnumerator>());
+                //    }
+                //}
 
-                //Remove All Generated Books
-                var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
-                foreach (var skillbookControl in skillbookControls)
+                if ((bool)currentBuddha.spiritOfBlade)
                 {
-                    (skillbookControl as SkillDropControl).gameObject.SetActive(false);
+                    currentBuddha.spiritOfBlade.SetActive(value: true);
                 }
+                currentBuddha.BuddhaStatue[2].SetActive(value: true);
+                currentBuddha.door.AnimationState.SetAnimation(0, "open", false);
+                CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
+                AudioController.Instance.SoundPlay("Amb_3D_BeginStoneDoorOpen", currentBuddha.doorCols[0].transform.parent.gameObject);
+                //yield return new WaitForSeconds(1f);
+                CameraControl.instance.CameraShake(9.75f, 0.05f, 0.05f, 0.1f, CameraShakeDir.EightDirections, 0.99f);
+                //yield return new WaitForSeconds(1f);
+                currentBuddha.doorCols[0].enabled = true;
+                currentBuddha.doorCols[1].enabled = true;
+                //yield return new WaitForSeconds(9.95f);
+                CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
+
             }
 
             //Initialize Player First Book
@@ -425,6 +439,12 @@ namespace WarmSnow_SpeedRunHelper
                         skilllearn.isGoldenBook = false;
                         skilllearn.SectRandomSkill.Remove(preset.FirstSkill);
                         break;
+                }
+                //Remove All Generated Books
+                var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
+                foreach (var skillbookControl in skillbookControls)
+                {
+                    (skillbookControl as SkillDropControl).gameObject.SetActive(false);
                 }
             }
 
@@ -503,7 +523,27 @@ namespace WarmSnow_SpeedRunHelper
 
             }
 
+            yield break;
+        }
+        public static bool ApplyPreset(Preset preset)
+        {
+            MenuSkillLearn.instance.StartCoroutine(IEApplyPreset(preset));
             return true;
+        }
+
+        static IEnumerator IEOpenTheDoor(BuddhaStatueControl currentBuddha)
+        {
+            currentBuddha.BuddhaStatue[2].SetActive(value: true);
+            currentBuddha.door.AnimationState.SetAnimation(0, "open", false);
+            CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
+            AudioController.Instance.SoundPlay("Amb_3D_BeginStoneDoorOpen", currentBuddha.doorCols[0].transform.parent.gameObject);
+            yield return new WaitForSeconds(1f);
+            CameraControl.instance.CameraShake(9.75f, 0.05f, 0.05f, 0.1f, CameraShakeDir.EightDirections, 0.99f);
+            yield return new WaitForSeconds(1f);
+            currentBuddha.doorCols[0].enabled = true;
+            currentBuddha.doorCols[1].enabled = true;
+            yield return new WaitForSeconds(9.95f);
+            CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
         }
     }
 }

@@ -49,7 +49,7 @@ namespace WarmSnow_SpeedRunHelper
 
         GUIStyle GUITimeStyle { get; } = new GUIStyle
         {
-            font = Localization.Instance.CurrentLangAsset.textFont,
+            //font = Localization.Instance.CurrentLangAsset.textFont,
             fontSize = 32,
             fontStyle = FontStyle.Bold,
             alignment = TextAnchor.MiddleCenter,
@@ -59,10 +59,10 @@ namespace WarmSnow_SpeedRunHelper
 
         void Start()
         {
-            preset1JsonString = Config.Bind(preset1Def, "");
-            preset2JsonString = Config.Bind(preset2Def, "");
-            preset3JsonString = Config.Bind(preset3Def, "");
-            preset4JsonString = Config.Bind(preset4Def, "");
+            preset1JsonString = Config.Bind(preset1Def, "{}");
+            preset2JsonString = Config.Bind(preset2Def, "{}");
+            preset3JsonString = Config.Bind(preset3Def, "{}");
+            preset4JsonString = Config.Bind(preset4Def, "{}");
             //mainWndPositionJsonString = Config.Bind(MainWindowPositionDef, "");
 
             PresetControl.Preset1 = JsonUtility.FromJson<Preset>(preset1JsonString.Value);
@@ -96,7 +96,14 @@ namespace WarmSnow_SpeedRunHelper
 
         void GUIMainWindow(int id)
         {
-            GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle);
+            try
+            {
+                GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle);
+            }
+            catch
+            {
+
+            }
             GUILayout.Label($"CurrentFrameRate: {1 / Time.unscaledDeltaTime:0.0#}");
 
 
@@ -107,7 +114,7 @@ namespace WarmSnow_SpeedRunHelper
             }
             GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(100));
             
-            if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
+            if (/*PresetControl.Preset1.IsNotNull &&*/ GUILayout.Button("ApplyPreset1"))
             {
                 PresetControl.Preset1.ApplyPreset();
             }

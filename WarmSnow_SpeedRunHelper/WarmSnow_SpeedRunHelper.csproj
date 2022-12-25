@@ -58,6 +58,7 @@
     <Reference Include="MySql.Data">
       <HintPath>Resources\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="spine-unity, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

@@ -17,21 +17,12 @@ using UnityEngine.UI;
 
 namespace WarmSnow_SpeedRunHelper
 {
-    public class PresetControl : MonoBehaviour
+    public class PresetControl
     {
-        public static PresetControl Instance { get; set; } = new PresetControl();
         public static Preset Preset1 { get; set; } = new Preset();
         public static Preset Preset2 { get; set; } = new Preset();
         public static Preset Preset3 { get; set; } = new Preset();
         public static Preset Preset4 { get; set; } = new Preset();
-
-        public delegate void LogInfoHandler(string message);
-        public event LogInfoHandler LogInfo;
-
-        PresetControl()
-        {
-            
-        }
 
         public static void SavePresets()
         {

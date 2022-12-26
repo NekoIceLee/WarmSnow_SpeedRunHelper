@@ -75,9 +75,6 @@ namespace WarmSnow_SpeedRunHelper
 
             OnUpdate += TimeControl.Instance.Update;
             SceneManager.activeSceneChanged += MapLogger.Instance.SceneManager_activeSceneChanged;
-
-            PresetControl.Instance.LogInfo += PresetControl_Log;
-            
         }
 
         private void PresetControl_Log(string message)
@@ -100,19 +97,55 @@ namespace WarmSnow_SpeedRunHelper
         void GUIMainWindow(int id)
         {
             GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle);
-            GUILayout.Label($"CurrentFrameRate: {1 / Time.unscaledDeltaTime:0.0#}");
+            GUILayout.Label($"帧率: {1 / Time.unscaledDeltaTime:0.0#}");
 
-
-            if (GUILayout.Button("GenPreset1"))
             {
-                PresetControl.Preset1 = Preset.CreatePreset();
-                PresetControl.SavePresets();
+                if (GUILayout.Button("GenPreset1"))
+                {
+                    PresetControl.Preset1 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
+                }
+                GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
+                {
+                    PresetControl.Preset1.ApplyPreset();
+                }
             }
-            GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(100));
-            
-            if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
             {
-                PresetControl.Preset1.ApplyPreset();
+                if (GUILayout.Button("GenPreset2"))
+                {
+                    PresetControl.Preset2 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
+                }
+                GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset2.IsNotNull && GUILayout.Button("ApplyPreset2"))
+                {
+                    PresetControl.Preset2.ApplyPreset();
+                }
+            }
+            {
+                if (GUILayout.Button("GenPreset3"))
+                {
+                    PresetControl.Preset3 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
+                }
+                GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset3.IsNotNull && GUILayout.Button("ApplyPreset3"))
+                {
+                    PresetControl.Preset3.ApplyPreset();
+                }
+            }
+            {
+                if (GUILayout.Button("GenPreset4"))
+                {
+                    PresetControl.Preset4 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
+                }
+                GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset4.IsNotNull && GUILayout.Button("ApplyPreset4"))
+                {
+                    PresetControl.Preset4.ApplyPreset();
+                }
             }
 
             GUI.DragWindow();

@@ -32,8 +32,8 @@ namespace WarmSnow_SpeedRunHelper
         const string MainWindowTitle = "SpeedrunHelper";
         const string PresetEditorWindowTitle = "PresetEdit";
 
-        Rect MainWindowPosition { get; set; } = new Rect(10, 10, 150, 500);
-
+        Rect MainWindowPosition = new Rect(10, 10, 150, 500);
+        Rect EditPresetWindowPosition = new Rect(0,0,200,400);
         GUIStyle GUITimeStyle { get; } = new GUIStyle
         {
             //font = Localization.Instance.CurrentLangAsset.textFont,
@@ -48,7 +48,20 @@ namespace WarmSnow_SpeedRunHelper
         };
 
         bool FoldUtilities { get; set; } = false;
-        bool ShowPresetEditor { get; set; } = false;
+        bool _showPresetEditor = false;
+        bool ShowPresetEditor 
+        {
+            get => _showPresetEditor;
+            set
+            {
+                if (value)
+                {
+                    EditPresetWindowPosition.xMax = MainWindowPosition.xMin;
+                    EditPresetWindowPosition.yMin = MainWindowPosition.yMin;
+                }
+                _showPresetEditor = value;
+            } 
+        }
         Preset currentEditingPreset;
 
 
@@ -76,7 +89,19 @@ namespace WarmSnow_SpeedRunHelper
 
         void OnGUI()
         {
+            if (FoldUtilities)
+            {
+                MainWindowPosition.height = 120;
+            }
+            else
+            {
+                MainWindowPosition.height = 500;
+            }
             MainWindowPosition = GUILayout.Window(MainWindowTitle.GetHashCode(), MainWindowPosition, GUIMainWindow, MainWindowTitle);
+            if (ShowPresetEditor)
+            {
+                EditPresetWindowPosition = GUILayout.Window(PresetEditorWindowTitle.GetHashCode(), EditPresetWindowPosition, EditPresetGUIWindow, PresetEditorWindowTitle);
+            }
         }
 
         void Update()
@@ -91,53 +116,53 @@ namespace WarmSnow_SpeedRunHelper
 
             if (FoldUtilities == false)
             {
+                if (GUILayout.Button("编辑预设1"))
                 {
-                    if (GUILayout.Button("GenPreset1"))
-                    {
-                        PresetControl.Preset1 = Preset.CreatePreset();
-                        PresetControl.SavePresets();
-                    }
-                    GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
-                    if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
-                    {
-                        PresetControl.Preset1.ApplyPreset();
-                    }
+                    currentEditingPreset = PresetControl.Preset1;
+                    ShowPresetEditor = true;
+                    //PresetControl.Preset1 = Preset.CreatePreset();
+                    //PresetControl.SavePresets();
                 }
+                GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset1.IsNotNull && GUILayout.Button("应用预设1"))
                 {
-                    if (GUILayout.Button("GenPreset2"))
-                    {
-                        PresetControl.Preset2 = Preset.CreatePreset();
-                        PresetControl.SavePresets();
-                    }
-                    GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
-                    if (PresetControl.Preset2.IsNotNull && GUILayout.Button("ApplyPreset2"))
-                    {
-                        PresetControl.Preset2.ApplyPreset();
-                    }
+                    PresetControl.Preset1.ApplyPreset();
                 }
+                if (GUILayout.Button("编辑预设2"))
                 {
-                    if (GUILayout.Button("GenPreset3"))
-                    {
-                        PresetControl.Preset3 = Preset.CreatePreset();
-                        PresetControl.SavePresets();
-                    }
-                    GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
-                    if (PresetControl.Preset3.IsNotNull && GUILayout.Button("ApplyPreset3"))
-                    {
-                        PresetControl.Preset3.ApplyPreset();
-                    }
+                    currentEditingPreset = PresetControl.Preset2;
+                    ShowPresetEditor = true;
+                    //PresetControl.Preset2 = Preset.CreatePreset();
+                    //PresetControl.SavePresets();
                 }
+                GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset2.IsNotNull && GUILayout.Button("应用预设2"))
                 {
-                    if (GUILayout.Button("GenPreset4"))
-                    {
-                        PresetControl.Preset4 = Preset.CreatePreset();
-                        PresetControl.SavePresets();
-                    }
-                    GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
-                    if (PresetControl.Preset4.IsNotNull && GUILayout.Button("ApplyPreset4"))
-                    {
-                        PresetControl.Preset4.ApplyPreset();
-                    }
+                    PresetControl.Preset2.ApplyPreset();
+                }
+                if (GUILayout.Button("编辑预设3"))
+                {
+                    currentEditingPreset = PresetControl.Preset3;
+                    ShowPresetEditor = true;
+                    //PresetControl.Preset3 = Preset.CreatePreset();
+                    //PresetControl.SavePresets();
+                }
+                GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset3.IsNotNull && GUILayout.Button("应用预设3"))
+                {
+                    PresetControl.Preset3.ApplyPreset();
+                }
+                if (GUILayout.Button("编辑预设4"))
+                {
+                    currentEditingPreset = PresetControl.Preset4;
+                    ShowPresetEditor = true;
+                    //PresetControl.Preset4 = Preset.CreatePreset();
+                    //PresetControl.SavePresets();
+                }
+                GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
+                if (PresetControl.Preset4.IsNotNull && GUILayout.Button("应用预设4"))
+                {
+                    PresetControl.Preset4.ApplyPreset();
                 }
 
                 if ( GUILayout.Button("折叠预设"))
@@ -152,6 +177,14 @@ namespace WarmSnow_SpeedRunHelper
                     FoldUtilities = false;
                 }
             }
+
+            GUI.DragWindow();
+        }
+
+        void EditPresetGUIWindow(int id)
+        {
+
+
 
             GUI.DragWindow();
         }

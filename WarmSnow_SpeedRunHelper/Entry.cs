@@ -54,7 +54,10 @@ namespace WarmSnow_SpeedRunHelper
             fontStyle = FontStyle.Bold,
             alignment = TextAnchor.MiddleCenter,
             wordWrap = true,
-            
+            normal = new GUIStyleState
+            {
+                textColor = Color.white,
+            },
         };
 
         void Start()

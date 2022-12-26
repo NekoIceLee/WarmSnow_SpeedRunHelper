@@ -46,6 +46,18 @@ namespace WarmSnow_SpeedRunHelper
                 textColor = Color.white,
             },
         };
+        GUIStyle GUIFrameRateTextStyle { get; } = new GUIStyle
+        {
+            //font = Localization.Instance.CurrentLangAsset.textFont,
+            fontSize = 20,
+            fontStyle = FontStyle.Bold,
+            alignment = TextAnchor.MiddleCenter,
+            wordWrap = true,
+            normal = new GUIStyleState
+            {
+                textColor = Color.white,
+            },
+        };
 
         bool FoldUtilities { get; set; } = false;
         bool _showPresetEditor = false;
@@ -112,7 +124,7 @@ namespace WarmSnow_SpeedRunHelper
         void GUIMainWindow(int id)
         {
             GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle, GUILayout.MaxHeight(80));
-            GUILayout.Label($"帧率: {1 / Time.unscaledDeltaTime:0.0#}");
+            GUILayout.Label($"帧率: {1 / Time.unscaledDeltaTime:0.0#}", GUIFrameRateTextStyle);
 
             if (FoldUtilities == false)
             {

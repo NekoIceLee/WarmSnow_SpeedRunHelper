@@ -53,9 +53,12 @@ namespace WarmSnow_SpeedRunHelper
             if (arg1.name.ToUpper().Contains("BASEMENT"))
             {
                 //finish event
-                fileWriter.WriteLine(CurrentLogData);
-                FinishThisRun();
-                return;
+                if (fileWriter != null)
+                {
+                    fileWriter.WriteLine(CurrentLogData);
+                    FinishThisRun();
+                    return;
+                }
             }
             if (arg0.name.ToUpper().Contains("BASEMENT"))
             {
@@ -84,7 +87,7 @@ namespace WarmSnow_SpeedRunHelper
         {
             string filename = $"{DateTime.Now:M-dd-H-m-ss}_{PlayerAnimControl.instance.playerParameter.PLAYER_SECT}";
             
-            return new StreamWriter($".\\{filename}.csv");
+            return new StreamWriter(Path.Combine(BepInEx.Paths.GameRootPath, $"\\{filename}.csv"));
         }
     }
 }

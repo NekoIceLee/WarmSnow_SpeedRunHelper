@@ -96,14 +96,7 @@ namespace WarmSnow_SpeedRunHelper
 
         void GUIMainWindow(int id)
         {
-            try
-            {
-                GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle);
-            }
-            catch
-            {
-
-            }
+            GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle);
             GUILayout.Label($"CurrentFrameRate: {1 / Time.unscaledDeltaTime:0.0#}");
 
 
@@ -114,7 +107,7 @@ namespace WarmSnow_SpeedRunHelper
             }
             GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(100));
             
-            if (/*PresetControl.Preset1.IsNotNull &&*/ GUILayout.Button("ApplyPreset1"))
+            if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
             {
                 PresetControl.Preset1.ApplyPreset();
             }

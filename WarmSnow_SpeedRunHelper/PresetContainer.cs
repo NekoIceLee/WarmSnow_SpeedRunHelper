@@ -49,8 +49,8 @@ namespace WarmSnow_SpeedRunHelper
         {
             return $"{GetSectTitle(Sect, SectChose)}," +
                 $"{TextControl.instance.SkillTitle(FirstSkillType, FirstSkill)}," +
-                $"{GetPotionTitle(Potion1)}:{GetPotionPositionName(Potion1Position)}," +
-                $"{GetPotionTitle(Potion2)}:{GetPotionPositionName(Potion2Position)}";
+                $"{GetPotionTitle(Potion1)}," +
+                $"{GetPotionTitle(Potion2)}";
         }
         public bool IsNotNull
         {

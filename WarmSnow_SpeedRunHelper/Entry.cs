@@ -29,23 +29,10 @@ namespace WarmSnow_SpeedRunHelper
         readonly ConfigDefinition preset4Def = new ConfigDefinition("Preset", "Preset4");
         readonly ConfigDefinition MainWindowPositionDef = new ConfigDefinition("Main", "MainWindowPosition");
 
-        Rect MainWindowPosition { get; set; } = new Rect(10, 10, 300, 500);
-        //{
-        //    get
-        //    {
-        //        if (JsonUtility.FromJson<SerializableRect>(mainWndPositionJsonString.Value).X == 0)
-        //        {
-        //            return new Rect(10, 10, 300, 500);
-        //        }
-        //        return JsonUtility.FromJson<SerializableRect>(mainWndPositionJsonString.Value).Rect;
-        //    }
-        //    set
-        //    {
-        //        var serobj = new SerializableRect();
-        //        serobj.Rect = value;
-        //        mainWndPositionJsonString.Value = JsonUtility.ToJson(serobj);
-        //    }
-        //}
+        const string MainWindowTitle = "SpeedrunHelper";
+        const string PresetEditorWindowTitle = "PresetEdit";
+
+        Rect MainWindowPosition { get; set; } = new Rect(10, 10, 150, 500);
 
         GUIStyle GUITimeStyle { get; } = new GUIStyle
         {
@@ -59,6 +46,11 @@ namespace WarmSnow_SpeedRunHelper
                 textColor = Color.white,
             },
         };
+
+        bool FoldUtilities { get; set; } = false;
+        bool ShowPresetEditor { get; set; } = false;
+        Preset currentEditingPreset;
+
 
         void Start()
         {
@@ -84,67 +76,80 @@ namespace WarmSnow_SpeedRunHelper
 
         void OnGUI()
         {
-            MainWindowPosition = GUILayout.Window("Main".GetHashCode(), MainWindowPosition, GUIMainWindow, "Main");
+            MainWindowPosition = GUILayout.Window(MainWindowTitle.GetHashCode(), MainWindowPosition, GUIMainWindow, MainWindowTitle);
         }
 
         void Update()
         {
-
-
             OnUpdate();
         }
 
         void GUIMainWindow(int id)
         {
-            GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle);
+            GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle, GUILayout.MaxHeight(80));
             GUILayout.Label($"帧率: {1 / Time.unscaledDeltaTime:0.0#}");
 
+            if (FoldUtilities == false)
             {
-                if (GUILayout.Button("GenPreset1"))
                 {
-                    PresetControl.Preset1 = Preset.CreatePreset();
-                    PresetControl.SavePresets();
+                    if (GUILayout.Button("GenPreset1"))
+                    {
+                        PresetControl.Preset1 = Preset.CreatePreset();
+                        PresetControl.SavePresets();
+                    }
+                    GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
+                    if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
+                    {
+                        PresetControl.Preset1.ApplyPreset();
+                    }
                 }
-                GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
-                if (PresetControl.Preset1.IsNotNull && GUILayout.Button("ApplyPreset1"))
                 {
-                    PresetControl.Preset1.ApplyPreset();
+                    if (GUILayout.Button("GenPreset2"))
+                    {
+                        PresetControl.Preset2 = Preset.CreatePreset();
+                        PresetControl.SavePresets();
+                    }
+                    GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
+                    if (PresetControl.Preset2.IsNotNull && GUILayout.Button("ApplyPreset2"))
+                    {
+                        PresetControl.Preset2.ApplyPreset();
+                    }
+                }
+                {
+                    if (GUILayout.Button("GenPreset3"))
+                    {
+                        PresetControl.Preset3 = Preset.CreatePreset();
+                        PresetControl.SavePresets();
+                    }
+                    GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
+                    if (PresetControl.Preset3.IsNotNull && GUILayout.Button("ApplyPreset3"))
+                    {
+                        PresetControl.Preset3.ApplyPreset();
+                    }
+                }
+                {
+                    if (GUILayout.Button("GenPreset4"))
+                    {
+                        PresetControl.Preset4 = Preset.CreatePreset();
+                        PresetControl.SavePresets();
+                    }
+                    GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
+                    if (PresetControl.Preset4.IsNotNull && GUILayout.Button("ApplyPreset4"))
+                    {
+                        PresetControl.Preset4.ApplyPreset();
+                    }
+                }
+
+                if ( GUILayout.Button("折叠预设"))
+                {
+                    FoldUtilities = true;
                 }
             }
+            else
             {
-                if (GUILayout.Button("GenPreset2"))
+                if (GUILayout.Button("展开预设"))
                 {
-                    PresetControl.Preset2 = Preset.CreatePreset();
-                    PresetControl.SavePresets();
-                }
-                GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
-                if (PresetControl.Preset2.IsNotNull && GUILayout.Button("ApplyPreset2"))
-                {
-                    PresetControl.Preset2.ApplyPreset();
-                }
-            }
-            {
-                if (GUILayout.Button("GenPreset3"))
-                {
-                    PresetControl.Preset3 = Preset.CreatePreset();
-                    PresetControl.SavePresets();
-                }
-                GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
-                if (PresetControl.Preset3.IsNotNull && GUILayout.Button("ApplyPreset3"))
-                {
-                    PresetControl.Preset3.ApplyPreset();
-                }
-            }
-            {
-                if (GUILayout.Button("GenPreset4"))
-                {
-                    PresetControl.Preset4 = Preset.CreatePreset();
-                    PresetControl.SavePresets();
-                }
-                GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
-                if (PresetControl.Preset4.IsNotNull && GUILayout.Button("ApplyPreset4"))
-                {
-                    PresetControl.Preset4.ApplyPreset();
+                    FoldUtilities = false;
                 }
             }
 

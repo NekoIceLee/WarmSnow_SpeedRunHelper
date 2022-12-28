@@ -1,8 +1,10 @@
-﻿using System;
+﻿using BepInEx;
+using System;
 using System.CodeDom;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine.SceneManagement;
@@ -14,6 +16,11 @@ namespace WarmSnow_SpeedRunHelper
         public static MapLogger Instance { get; } = new MapLogger();
         public Scene CurrentScene { get; private set; }
         Dictionary<string, string> sceneNameMapping = new Dictionary<string, string>();
+        public delegate void LogMessageHandler(string message);
+        public event LogMessageHandler LogMessage;
+
+        public delegate void RunEndHandler(object message);
+        public event LogMessageHandler RunEnd;
         public string CurrentLogData
         {
             get
@@ -38,7 +45,7 @@ namespace WarmSnow_SpeedRunHelper
                 return name;
             }
         }
-        private StreamWriter fileWriter;
+        private string fileName;
         MapLogger()
         {
             sceneNameMapping = new Dictionary<string, string>
@@ -50,44 +57,35 @@ namespace WarmSnow_SpeedRunHelper
         public void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
         {
             CurrentScene = arg1;
-            if (arg1.name.ToUpper().Contains("BASEMENT"))
-            {
-                //finish event
-                if (fileWriter != null)
-                {
-                    fileWriter.WriteLine(CurrentLogData);
-                    FinishThisRun();
-                    return;
-                }
-            }
-            if (arg0.name.ToUpper().Contains("BASEMENT"))
-            {
-                //start game event
-                if (fileWriter != null)
-                {
-                    fileWriter.Close();
-                    fileWriter.Dispose();
-                    fileWriter = null;
-                }
-                fileWriter = StartRun();
-                return;
-            }
             //common Switch Maps
-            fileWriter.WriteLine(CurrentLogData);
+            if (string.IsNullOrEmpty(fileName)) { fileName= StartRun(); }
+            StreamWriter sw = new StreamWriter(fileName);
+            sw.WriteLine(CurrentLogData);
+            sw.Flush();
+            sw.Close();
+            LogMessage(CurrentLogData);
         }
-        private void FinishThisRun()
+        public void FinishThisRun()
         {
-            if (fileWriter == null) return;
-            fileWriter.Flush();
-            fileWriter.Close();
-            fileWriter.Dispose();
-            fileWriter = null;
+            fileName = null;
         }
-        private StreamWriter StartRun()
+        private string StartRun()
         {
             string filename = $"{DateTime.Now:M-dd-H-m-ss}_{PlayerAnimControl.instance.playerParameter.PLAYER_SECT}";
-            
-            return new StreamWriter(Path.Combine(BepInEx.Paths.GameRootPath, $"\\{filename}.csv"));
+            filename = $"D:\\{filename}.csv";
+            LogMessage(filename);
+            return filename;
+        }
+    }
+
+    [HarmonyLib.HarmonyPatch(typeof(PlayerAnimControl), nameof(PlayerAnimControl.instance.BringBackToLife))]
+    public class PlayerRevivePatch
+    {
+        [HarmonyLib.HarmonyPrefix]
+        public static void Prefix()
+        {
+            TimeControl.Instance.OnRunEnd(null);
+            MapLogger.Instance.FinishThisRun();
         }
     }
 }

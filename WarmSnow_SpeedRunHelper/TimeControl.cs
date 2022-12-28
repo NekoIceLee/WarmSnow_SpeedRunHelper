@@ -35,6 +35,12 @@ namespace WarmSnow_SpeedRunHelper
         {
 
         }
+
+        public void OnRunEnd(string message)
+        {
+            timeSeconds = 0;
+        }
+
         public void Update()
         {
             if (ContinueTimeGo)

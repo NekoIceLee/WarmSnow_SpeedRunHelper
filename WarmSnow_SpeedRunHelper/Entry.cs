@@ -92,9 +92,12 @@ namespace WarmSnow_SpeedRunHelper
 
             OnUpdate += TimeControl.Instance.Update;
             SceneManager.activeSceneChanged += MapLogger.Instance.SceneManager_activeSceneChanged;
+            MapLogger.Instance.LogMessage += ExtClass_Log;
+
+            Harmony.CreateAndPatchAll(typeof(PlayerRevivePatch), "com.NekoIce.SpeedRunHelper");
         }
 
-        private void PresetControl_Log(string message)
+        private void ExtClass_Log(string message)
         {
             Logger.LogInfo(message);
         }
@@ -128,18 +131,22 @@ namespace WarmSnow_SpeedRunHelper
 
             if (FoldUtilities == false)
             {
-                if (GUILayout.Button("编辑预设1"))
+                int p1 = -1, p2 = -1, p3 = -1, p4 = -1;
+                GUILayout.Label("", GUILayout.Height(15));
+                GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
+                p1 = GUILayout.SelectionGrid(p1, new string[] { "编辑", "应用" }, 2);
+                if (p1 == 0)
                 {
                     currentEditingPreset = PresetControl.Preset1;
                     ShowPresetEditor = true;
                     //PresetControl.Preset1 = Preset.CreatePreset();
                     //PresetControl.SavePresets();
                 }
-                GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
-                if (PresetControl.Preset1.IsNotNull && GUILayout.Button("应用预设1"))
+                else if (PresetControl.Preset1.IsNotNull && p1 == 1)
                 {
                     PresetControl.Preset1.ApplyPreset();
                 }
+                GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
                 if (GUILayout.Button("编辑预设2"))
                 {
                     currentEditingPreset = PresetControl.Preset2;
@@ -147,11 +154,11 @@ namespace WarmSnow_SpeedRunHelper
                     //PresetControl.Preset2 = Preset.CreatePreset();
                     //PresetControl.SavePresets();
                 }
-                GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
                 if (PresetControl.Preset2.IsNotNull && GUILayout.Button("应用预设2"))
                 {
                     PresetControl.Preset2.ApplyPreset();
                 }
+                GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
                 if (GUILayout.Button("编辑预设3"))
                 {
                     currentEditingPreset = PresetControl.Preset3;
@@ -159,11 +166,11 @@ namespace WarmSnow_SpeedRunHelper
                     //PresetControl.Preset3 = Preset.CreatePreset();
                     //PresetControl.SavePresets();
                 }
-                GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
                 if (PresetControl.Preset3.IsNotNull && GUILayout.Button("应用预设3"))
                 {
                     PresetControl.Preset3.ApplyPreset();
                 }
+                GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
                 if (GUILayout.Button("编辑预设4"))
                 {
                     currentEditingPreset = PresetControl.Preset4;
@@ -171,11 +178,13 @@ namespace WarmSnow_SpeedRunHelper
                     //PresetControl.Preset4 = Preset.CreatePreset();
                     //PresetControl.SavePresets();
                 }
-                GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
                 if (PresetControl.Preset4.IsNotNull && GUILayout.Button("应用预设4"))
                 {
                     PresetControl.Preset4.ApplyPreset();
                 }
+
+                GUILayout.BeginVertical(GUILayout.Height(10));
+                GUILayout.EndVertical();
 
                 if ( GUILayout.Button("折叠预设"))
                 {

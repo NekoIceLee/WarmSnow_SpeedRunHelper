@@ -27,7 +27,8 @@ namespace WarmSnow_SpeedRunHelper
             {
                 var ingametime = UI_TimeCount.instance.m_time;
                 var modtime = TimeControl.Instance.StrTime;
-                return $"{CurrentSceneRename},{modtime},{ingametime}";
+                var globalmapid = StageControl.instance.MapID;
+                return $"{globalmapid},{CurrentSceneRename},{modtime},{ingametime}";
             }
         }
         public string CurrentSceneRename
@@ -36,7 +37,6 @@ namespace WarmSnow_SpeedRunHelper
             {
                 var path = CurrentScene.path;
                 var name = CurrentScene.name;
-
                 if (sceneNameMapping.TryGetValue(name, out var mapping))
                 {
                     return mapping;

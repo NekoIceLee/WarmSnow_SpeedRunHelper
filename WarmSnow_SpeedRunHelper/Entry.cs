@@ -147,38 +147,41 @@ namespace WarmSnow_SpeedRunHelper
                     PresetControl.Preset1.ApplyPreset();
                 }
                 GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
-                if (GUILayout.Button("编辑预设2"))
+                p2 = GUILayout.SelectionGrid(p2, new string[] { "编辑", "应用" }, 2);
+                if (p2 == 0)
                 {
                     currentEditingPreset = PresetControl.Preset2;
                     ShowPresetEditor = true;
                     //PresetControl.Preset2 = Preset.CreatePreset();
                     //PresetControl.SavePresets();
                 }
-                if (PresetControl.Preset2.IsNotNull && GUILayout.Button("应用预设2"))
+                else if (PresetControl.Preset2.IsNotNull && p2 == 1)
                 {
                     PresetControl.Preset2.ApplyPreset();
                 }
                 GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
-                if (GUILayout.Button("编辑预设3"))
+                p3 = GUILayout.SelectionGrid(p3, new string[] { "编辑", "应用" }, 2);
+                if (p3 == 0)
                 {
                     currentEditingPreset = PresetControl.Preset3;
                     ShowPresetEditor = true;
                     //PresetControl.Preset3 = Preset.CreatePreset();
                     //PresetControl.SavePresets();
                 }
-                if (PresetControl.Preset3.IsNotNull && GUILayout.Button("应用预设3"))
+                if (PresetControl.Preset3.IsNotNull && p3 == 1)
                 {
                     PresetControl.Preset3.ApplyPreset();
                 }
                 GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
-                if (GUILayout.Button("编辑预设4"))
+                p4 = GUILayout.SelectionGrid(p4, new string[] { "编辑", "应用" }, 2);
+                if (p4 == 0)
                 {
                     currentEditingPreset = PresetControl.Preset4;
                     ShowPresetEditor = true;
                     //PresetControl.Preset4 = Preset.CreatePreset();
                     //PresetControl.SavePresets();
                 }
-                if (PresetControl.Preset4.IsNotNull && GUILayout.Button("应用预设4"))
+                if (PresetControl.Preset4.IsNotNull && p4 == 1)
                 {
                     PresetControl.Preset4.ApplyPreset();
                 }

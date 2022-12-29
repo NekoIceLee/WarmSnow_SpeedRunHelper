@@ -51,7 +51,7 @@ namespace WarmSnow_SpeedRunHelper
         {
             sceneNameMapping = new Dictionary<int, string>
             {
-
+                { 314, "龙帝" },
             };
         }
 

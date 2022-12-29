@@ -498,13 +498,13 @@ namespace WarmSnow_SpeedRunHelper
 
             potionControl.PotionsExchange();
 
-            if (potion1.potionType != PotionType.None && potion1.potionType != PotionType.None)
+            if (potion1.potionType != PotionType.None && potion2.potionType != PotionType.None)
             {
                 //Remove All Potions
                 PotionDropPool.instance.MoveAway();
                 PlayerAnimControl.instance.MementoRefine_FirstSuperRarePotion_On = false;
             }
-            else if (potion1.potionType != PotionType.None || potion1.potionType != PotionType.None)
+            else if (potion1.potionType != PotionType.None || potion2.potionType != PotionType.None)
             {
                 //Remove All Potions
                 PotionDropPool.instance.MoveAway();

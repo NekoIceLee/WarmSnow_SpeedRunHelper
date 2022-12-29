@@ -32,7 +32,7 @@ namespace WarmSnow_SpeedRunHelper
         const string MainWindowTitle = "SpeedrunHelper";
         const string PresetEditorWindowTitle = "PresetEdit";
 
-        Rect MainWindowPosition = new Rect(10, 10, 150, 500);
+        Rect MainWindowPosition = new Rect(10, 10, 150, 400);
         Rect EditPresetWindowPosition = new Rect(0,0,200,400);
         GUIStyle GUITimeStyle { get; } = new GUIStyle
         {
@@ -110,7 +110,7 @@ namespace WarmSnow_SpeedRunHelper
             }
             else
             {
-                MainWindowPosition.height = 500;
+                MainWindowPosition.height = 400;
             }
             MainWindowPosition = GUILayout.Window(MainWindowTitle.GetHashCode(), MainWindowPosition, GUIMainWindow, MainWindowTitle);
             //if (ShowPresetEditor)
@@ -133,7 +133,7 @@ namespace WarmSnow_SpeedRunHelper
             {
                 int p1 = -1, p2 = -1, p3 = -1, p4 = -1;
                 GUILayout.Label("", GUILayout.Height(15));
-                GUILayout.Label(PresetControl.Preset1.ToString(), GUILayout.MaxHeight(50));
+                GUILayout.Label(PresetControl.Preset1.ToString());
                 p1 = GUILayout.SelectionGrid(p1, new string[] { "编辑", "应用" }, 2);
                 if (p1 == 0)
                 {
@@ -146,7 +146,7 @@ namespace WarmSnow_SpeedRunHelper
                 {
                     PresetControl.Preset1.ApplyPreset();
                 }
-                GUILayout.Label(PresetControl.Preset2.ToString(), GUILayout.MaxHeight(50));
+                GUILayout.Label(PresetControl.Preset2.ToString());
                 p2 = GUILayout.SelectionGrid(p2, new string[] { "编辑", "应用" }, 2);
                 if (p2 == 0)
                 {
@@ -159,7 +159,7 @@ namespace WarmSnow_SpeedRunHelper
                 {
                     PresetControl.Preset2.ApplyPreset();
                 }
-                GUILayout.Label(PresetControl.Preset3.ToString(), GUILayout.MaxHeight(50));
+                GUILayout.Label(PresetControl.Preset3.ToString());
                 p3 = GUILayout.SelectionGrid(p3, new string[] { "编辑", "应用" }, 2);
                 if (p3 == 0)
                 {
@@ -172,7 +172,7 @@ namespace WarmSnow_SpeedRunHelper
                 {
                     PresetControl.Preset3.ApplyPreset();
                 }
-                GUILayout.Label(PresetControl.Preset4.ToString(), GUILayout.MaxHeight(50));
+                GUILayout.Label(PresetControl.Preset4.ToString());
                 p4 = GUILayout.SelectionGrid(p4, new string[] { "编辑", "应用" }, 2);
                 if (p4 == 0)
                 {

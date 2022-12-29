@@ -59,7 +59,7 @@ namespace WarmSnow_SpeedRunHelper
             },
         };
 
-        bool FoldUtilities { get; set; } = false;
+        bool FoldUtilities { get; set; } = true;
         bool _showPresetEditor = false;
         bool ShowPresetEditor 
         {
@@ -113,10 +113,10 @@ namespace WarmSnow_SpeedRunHelper
                 MainWindowPosition.height = 500;
             }
             MainWindowPosition = GUILayout.Window(MainWindowTitle.GetHashCode(), MainWindowPosition, GUIMainWindow, MainWindowTitle);
-            if (ShowPresetEditor)
-            {
-                EditPresetWindowPosition = GUILayout.Window(PresetEditorWindowTitle.GetHashCode(), EditPresetWindowPosition, EditPresetGUIWindow, PresetEditorWindowTitle);
-            }
+            //if (ShowPresetEditor)
+            //{
+            //    EditPresetWindowPosition = GUILayout.Window(PresetEditorWindowTitle.GetHashCode(), EditPresetWindowPosition, EditPresetGUIWindow, PresetEditorWindowTitle);
+            //}
         }
 
         void Update()
@@ -137,10 +137,10 @@ namespace WarmSnow_SpeedRunHelper
                 p1 = GUILayout.SelectionGrid(p1, new string[] { "编辑", "应用" }, 2);
                 if (p1 == 0)
                 {
-                    currentEditingPreset = PresetControl.Preset1;
-                    ShowPresetEditor = true;
-                    //PresetControl.Preset1 = Preset.CreatePreset();
-                    //PresetControl.SavePresets();
+                    //currentEditingPreset = PresetControl.Preset1;
+                    //ShowPresetEditor = true;
+                    PresetControl.Preset1 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
                 }
                 else if (PresetControl.Preset1.IsNotNull && p1 == 1)
                 {
@@ -150,10 +150,10 @@ namespace WarmSnow_SpeedRunHelper
                 p2 = GUILayout.SelectionGrid(p2, new string[] { "编辑", "应用" }, 2);
                 if (p2 == 0)
                 {
-                    currentEditingPreset = PresetControl.Preset2;
-                    ShowPresetEditor = true;
-                    //PresetControl.Preset2 = Preset.CreatePreset();
-                    //PresetControl.SavePresets();
+                    //currentEditingPreset = PresetControl.Preset2;
+                    //ShowPresetEditor = true;
+                    PresetControl.Preset2 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
                 }
                 else if (PresetControl.Preset2.IsNotNull && p2 == 1)
                 {
@@ -163,10 +163,10 @@ namespace WarmSnow_SpeedRunHelper
                 p3 = GUILayout.SelectionGrid(p3, new string[] { "编辑", "应用" }, 2);
                 if (p3 == 0)
                 {
-                    currentEditingPreset = PresetControl.Preset3;
-                    ShowPresetEditor = true;
-                    //PresetControl.Preset3 = Preset.CreatePreset();
-                    //PresetControl.SavePresets();
+                    //currentEditingPreset = PresetControl.Preset3;
+                    //ShowPresetEditor = true;
+                    PresetControl.Preset3 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
                 }
                 if (PresetControl.Preset3.IsNotNull && p3 == 1)
                 {
@@ -176,10 +176,10 @@ namespace WarmSnow_SpeedRunHelper
                 p4 = GUILayout.SelectionGrid(p4, new string[] { "编辑", "应用" }, 2);
                 if (p4 == 0)
                 {
-                    currentEditingPreset = PresetControl.Preset4;
-                    ShowPresetEditor = true;
-                    //PresetControl.Preset4 = Preset.CreatePreset();
-                    //PresetControl.SavePresets();
+                    //currentEditingPreset = PresetControl.Preset4;
+                    //ShowPresetEditor = true;
+                    PresetControl.Preset4 = Preset.CreatePreset();
+                    PresetControl.SavePresets();
                 }
                 if (PresetControl.Preset4.IsNotNull && p4 == 1)
                 {
@@ -205,13 +205,6 @@ namespace WarmSnow_SpeedRunHelper
             GUI.DragWindow();
         }
 
-        void EditPresetGUIWindow(int id)
-        {
-
-
-
-            GUI.DragWindow();
-        }
     }
 
     [Serializable]

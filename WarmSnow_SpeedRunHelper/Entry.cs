@@ -127,7 +127,7 @@ namespace WarmSnow_SpeedRunHelper
         void GUIMainWindow(int id)
         {
             GUILayout.Label(TimeControl.Instance.StrTime, GUITimeStyle, GUILayout.MaxHeight(80));
-            GUILayout.Label($"帧率: {1 / Time.unscaledDeltaTime:0.0#}", GUIFrameRateTextStyle);
+            GUILayout.Label($"帧率: {1 / Time.unscaledDeltaTime:0.0}", GUIFrameRateTextStyle);
 
             if (FoldUtilities == false)
             {

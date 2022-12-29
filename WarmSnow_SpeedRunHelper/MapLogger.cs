@@ -15,7 +15,7 @@ namespace WarmSnow_SpeedRunHelper
     {
         public static MapLogger Instance { get; } = new MapLogger();
         public Scene CurrentScene { get; private set; }
-        Dictionary<string, string> sceneNameMapping = new Dictionary<string, string>();
+        Dictionary<int, string> sceneNameMapping = new Dictionary<int, string>();
         public delegate void LogMessageHandler(string message);
         public event LogMessageHandler LogMessage;
 
@@ -37,7 +37,8 @@ namespace WarmSnow_SpeedRunHelper
             {
                 var path = CurrentScene.path;
                 var name = CurrentScene.name;
-                if (sceneNameMapping.TryGetValue(name, out var mapping))
+                var globalmapid = StageControl.instance.MapID;
+                if (sceneNameMapping.TryGetValue(globalmapid, out var mapping))
                 {
                     return mapping;
                 }
@@ -48,7 +49,7 @@ namespace WarmSnow_SpeedRunHelper
         private string fileName;
         MapLogger()
         {
-            sceneNameMapping = new Dictionary<string, string>
+            sceneNameMapping = new Dictionary<int, string>
             {
 
             };

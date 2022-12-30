@@ -18,9 +18,7 @@ namespace WarmSnow_SpeedRunHelper
         Dictionary<int, string> sceneNameMapping = new Dictionary<int, string>();
         public delegate void LogMessageHandler(string message);
         public event LogMessageHandler LogMessage;
-
-        public delegate void RunEndHandler(object message);
-        public event LogMessageHandler RunEnd;
+        
         public string CurrentLogData
         {
             get
@@ -64,6 +62,29 @@ namespace WarmSnow_SpeedRunHelper
             sw.WriteLine(CurrentLogData);
             sw.Flush();
             sw.Close();
+            switch (StageControl.instance.MapID)
+            {
+                //case StageType.Wild:
+                //    TimeControl.Instance.stage1EndTime = TimeControl.Instance.TimeSeconds;
+                //    break;
+                //case StageType.PigBoss:
+                //    TimeControl.Instance.stage2EndTime = TimeControl.Instance.TimeSeconds;
+                //    break;
+                //case StageType.Sister:
+                //    TimeControl.Instance.stage3EndTime = TimeControl.Instance.TimeSeconds;
+                //    break;
+                //case StageType.Gundam:
+                //    TimeControl.Instance.stage4EndTime = TimeControl.Instance.TimeSeconds;
+                //    break;
+                //case StageType.Tiger:
+                //    TimeControl.Instance.stage5EndTime = TimeControl.Instance.TimeSeconds;
+                //    break;
+                case 314:
+                    TimeControl.Instance.stage6EndTime = TimeControl.Instance.TimeSeconds;
+                    break;
+                default:
+                    break;
+            }
             LogMessage(CurrentLogData);
         }
         public void FinishThisRun()

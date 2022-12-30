@@ -336,6 +336,8 @@ namespace WarmSnow_SpeedRunHelper
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
+            MementoControl.instance.MementoOn();
+            yield return new WaitForEndOfFrame();
 
             //Initialize Player Sects
             if (preset.SectChose >= 0)

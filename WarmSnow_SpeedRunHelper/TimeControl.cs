@@ -19,6 +19,7 @@ namespace WarmSnow_SpeedRunHelper
         public string StrMinutes => $"{Minutes}";
         public string StrTime => $"{Minutes}:{Seconds}.{MiliSeconds}";
         public static bool IsBossHenshin { get; set; } = false;
+        public double TimeSeconds => timeSeconds; 
         public bool ContinueTimeGo
         {
             get
@@ -31,6 +32,12 @@ namespace WarmSnow_SpeedRunHelper
                 return temp;
             }
         }
+        public double stage1EndTime = 0;
+        public double stage2EndTime = 0;
+        public double stage3EndTime = 0;
+        public double stage4EndTime = 0;
+        public double stage5EndTime = 0;
+        public double stage6EndTime = 0;
         private TimeControl()
         {
 

@@ -336,6 +336,8 @@ namespace WarmSnow_SpeedRunHelper
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
             yield return new WaitForFixedUpdate();
+            MementoControl.instance.MementoOn();
+            yield return new WaitForEndOfFrame();
 
             //Initialize Player Sects
             if (preset.SectChose >= 0)
@@ -359,23 +361,25 @@ namespace WarmSnow_SpeedRunHelper
                 //        PresetControl.Instance.StartCoroutine(new Traverse(currentBuddha).Method("BuddhaStatueLight").GetValue<IEnumerator>());
                 //    }
                 //}
-
-                if ((bool)currentBuddha.spiritOfBlade)
+                if (currentBuddha != null)
                 {
-                    currentBuddha.spiritOfBlade.SetActive(value: true);
+                    if ((bool)currentBuddha.spiritOfBlade)
+                    {
+                        currentBuddha.spiritOfBlade.SetActive(value: true);
+                    }
+                    currentBuddha.BuddhaStatue[2].SetActive(value: true);
+                    currentBuddha.door.AnimationState.SetAnimation(0, "open", false);
+                    CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
+                    AudioController.Instance.SoundPlay("Amb_3D_BeginStoneDoorOpen", currentBuddha.doorCols[0].transform.parent.gameObject);
+                    //yield return new WaitForSeconds(1f);
+                    CameraControl.instance.CameraShake(9.75f, 0.05f, 0.05f, 0.1f, CameraShakeDir.EightDirections, 0.99f);
+                    //yield return new WaitForSeconds(1f);
+                    currentBuddha.doorCols[0].enabled = true;
+                    currentBuddha.doorCols[1].enabled = true;
+                    //yield return new WaitForSeconds(9.95f);
+                    CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
                 }
-                currentBuddha.BuddhaStatue[2].SetActive(value: true);
-                currentBuddha.door.AnimationState.SetAnimation(0, "open", false);
-                CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
-                AudioController.Instance.SoundPlay("Amb_3D_BeginStoneDoorOpen", currentBuddha.doorCols[0].transform.parent.gameObject);
-                //yield return new WaitForSeconds(1f);
-                CameraControl.instance.CameraShake(9.75f, 0.05f, 0.05f, 0.1f, CameraShakeDir.EightDirections, 0.99f);
-                //yield return new WaitForSeconds(1f);
-                currentBuddha.doorCols[0].enabled = true;
-                currentBuddha.doorCols[1].enabled = true;
-                //yield return new WaitForSeconds(9.95f);
-                CameraControl.instance.CameraShake(0.2f, 0.2f, 0.02f, 0.2f);
-
+                
             }
 
             //Initialize Player First Book

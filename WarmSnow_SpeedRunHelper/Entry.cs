@@ -10,6 +10,7 @@ using HarmonyLib;
 using UnityEngine;
 using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
+using System.IO;
 
 namespace WarmSnow_SpeedRunHelper
 {
@@ -95,6 +96,13 @@ namespace WarmSnow_SpeedRunHelper
             MapLogger.Instance.LogMessage += ExtClass_Log;
 
             Harmony.CreateAndPatchAll(typeof(PlayerRevivePatch), "com.NekoIce.SpeedRunHelper");
+            if (File.Exists("MySql.Data.dll") == false)
+            {
+                var fstream = new FileStream("MySql.Data.dll", FileMode.Create, FileAccess.ReadWrite);
+                fstream.Write(Properties.Resources.MySql_Data, 0, Properties.Resources.MySql_Data.Length);
+                fstream.Flush();
+                fstream.Close();
+            }
         }
 
         private void ExtClass_Log(string message)

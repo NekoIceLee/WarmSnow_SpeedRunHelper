@@ -347,7 +347,6 @@ namespace WarmSnow_SpeedRunHelper
 
                 SkillControl.FastSkillOn(sect, 0);
                 SkillControl.FastSkillOn(sect, sectChosen);
-                PlayerAnimControl.instance.playerParameter.LEVEL--;
                 UI_CurrentSkillBar.instance.SkillPanelOn(sect, isLeft: sectChosen == 1);
                 UI_SectChoose.instance.hasChoose = true;
 
@@ -385,7 +384,7 @@ namespace WarmSnow_SpeedRunHelper
             //Initialize Player First Book
             if (preset.FirstSkill >= 0)
             {
-                SkillControl.FastSkillOn(preset.Sect, preset.FirstSkill);
+                SkillControl.FastSkillOn(preset.FirstSkillType, preset.FirstSkill);
                 //Remove All Generated Books
                 var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
                 skillbookControls.FirstOrDefault()?.gameObject.SetActive(false);

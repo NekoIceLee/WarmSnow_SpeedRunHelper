@@ -11,6 +11,7 @@ using UnityEngine;
 using System.Runtime.CompilerServices;
 using UnityEngine.SceneManagement;
 using System.IO;
+using HammerGameBase.Util;
 
 namespace WarmSnow_SpeedRunHelper
 {
@@ -128,6 +129,19 @@ namespace WarmSnow_SpeedRunHelper
         void Update()
         {
             OnUpdate();
+
+            //小红刷新技能测试
+            if ((Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftControl)) && Input.GetKeyDown(KeyCode.K))
+            {
+                var redsoulshop = FindObjectsOfType<InGameRedSoulShop>();
+                foreach(var shop in redsoulshop)
+                {
+                    foreach (InGameRedSoulGoods inGameRedSoulGoods in shop.items)
+                    {
+                        inGameRedSoulGoods.Refresh();
+                    }
+                }
+            }
         }
 
         void GUIMainWindow(int id)

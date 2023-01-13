@@ -333,9 +333,9 @@ namespace WarmSnow_SpeedRunHelper
         public static IEnumerator IEApplyPreset(Preset preset)
         {
             PlayerAnimControl.instance.BringBackToLife();
-            yield return new WaitForFixedUpdate();
-            yield return new WaitForFixedUpdate();
-            yield return new WaitForFixedUpdate();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
+            yield return new WaitForEndOfFrame();
             MementoControl.instance.MementoOn();
             yield return new WaitForEndOfFrame();
 
@@ -345,10 +345,10 @@ namespace WarmSnow_SpeedRunHelper
                 Sect sect = preset.Sect;
                 int sectChosen = preset.SectChose;
 
-                PlayerAnimControl.instance.playerParameter.LEVEL++;
-                SkillControl.instance.SkillOn(sect, 0);
-                SkillControl.instance.SkillOn(sect, sectChosen);
-                UI_CurrentSkillBar.instance.SkillPanelOn(sect, isLeft: false);
+                SkillControl.FastSkillOn(sect, 0);
+                SkillControl.FastSkillOn(sect, sectChosen);
+                PlayerAnimControl.instance.playerParameter.LEVEL--;
+                UI_CurrentSkillBar.instance.SkillPanelOn(sect, isLeft: sectChosen == 1);
                 UI_SectChoose.instance.hasChoose = true;
 
                 var buddhas = GameObject.FindObjectsOfType<BuddhaStatueControl>();
@@ -388,7 +388,7 @@ namespace WarmSnow_SpeedRunHelper
                 SkillControl.FastSkillOn(preset.Sect, preset.FirstSkill);
                 //Remove All Generated Books
                 var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
-                skillbookControls.First().gameObject.SetActive(false);
+                skillbookControls.FirstOrDefault()?.gameObject.SetActive(false);
             }
 
             //Initialize Player Potion

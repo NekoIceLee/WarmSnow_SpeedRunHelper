@@ -386,7 +386,9 @@ namespace WarmSnow_SpeedRunHelper
             if (preset.FirstSkill >= 0)
             {
                 SkillControl.FastSkillOn(preset.Sect, preset.FirstSkill);
-                
+                //Remove All Generated Books
+                var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
+                skillbookControls.First().gameObject.SetActive(false);
             }
 
             //Initialize Player Potion

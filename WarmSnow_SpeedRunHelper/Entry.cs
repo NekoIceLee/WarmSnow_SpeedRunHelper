@@ -142,6 +142,11 @@ namespace WarmSnow_SpeedRunHelper
                     }
                 }
             }
+            //梦魇法印刷新测试
+            if ((Input.GetKey(KeyCode.RightControl) || Input.GetKey(KeyCode.LeftControl)) && Input.GetKeyDown(KeyCode.L))
+            {
+                FindObjectsOfType<NightmareMode.NightmareSealUI>().FirstOrDefault()?.Refresh();
+            }
         }
 
         void GUIMainWindow(int id)

@@ -381,62 +381,8 @@ namespace WarmSnow_SpeedRunHelper
             //Initialize Player First Book
             if (preset.FirstSkill >= 0)
             {
-
-                var skilllearn = MenuSkillLearn.instance;
-
-                var commonskillbackup = new List<int>(skilllearn.CommonRandomSkill);
-                var nightmareskillbackup = new List<int>(skilllearn.NightmareRandomSkill);
-                var sectskillbackup = new List<int>(skilllearn.SectRandomSkill);
-
-                switch (preset.FirstSkillType)
-                {
-                    case Sect.CommonSkill:
-                        skilllearn.CommonRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
-                        skilllearn.NightmareRandomSkill = new List<int>();
-                        skilllearn.SectRandomSkill = new List<int> { };
-                        break;
-                    case Sect.Nightmare:
-                        skilllearn.isNightmareBook = true;
-                        skilllearn.CommonRandomSkill = new List<int> { };
-                        skilllearn.NightmareRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
-                        skilllearn.SectRandomSkill = new List<int> { };
-                        break;
-                    default:
-                        skilllearn.isGoldenBook = true;
-                        skilllearn.CommonRandomSkill = new List<int> { };
-                        skilllearn.NightmareRandomSkill = new List<int>();
-                        skilllearn.SectRandomSkill = new List<int> { preset.FirstSkill, preset.FirstSkill, preset.FirstSkill };
-                        break;
-                }
-
-                //skilllearn.isOn = true;
-
-                skilllearn.On();
-
-                skilllearn.CommonRandomSkill = commonskillbackup;
-                skilllearn.NightmareRandomSkill = nightmareskillbackup;
-                skilllearn.SectRandomSkill = sectskillbackup;
-
-                switch (preset.FirstSkillType)
-                {
-                    case Sect.CommonSkill:
-                        skilllearn.CommonRandomSkill.Remove(preset.FirstSkill);
-                        break;
-                    case Sect.Nightmare:
-                        skilllearn.isNightmareBook = false;
-                        skilllearn.NightmareRandomSkill.Remove(preset.FirstSkill);
-                        break;
-                    default:
-                        skilllearn.isGoldenBook = false;
-                        skilllearn.SectRandomSkill.Remove(preset.FirstSkill);
-                        break;
-                }
-                //Remove All Generated Books
-                var skillbookControls = GameObject.FindObjectsOfType<SkillDropControl>();
-                foreach (var skillbookControl in skillbookControls)
-                {
-                    (skillbookControl as SkillDropControl).gameObject.SetActive(false);
-                }
+                SkillControl.FastSkillOn(preset.Sect, preset.FirstSkill);
+                
             }
 
             //Initialize Player Potion

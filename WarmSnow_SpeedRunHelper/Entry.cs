@@ -75,8 +75,6 @@ namespace WarmSnow_SpeedRunHelper
                 _showPresetEditor = value;
             } 
         }
-        Preset currentEditingPreset;
-
 
         void Start()
         {

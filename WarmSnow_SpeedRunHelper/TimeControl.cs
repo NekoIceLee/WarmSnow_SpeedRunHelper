@@ -17,7 +17,7 @@ namespace WarmSnow_SpeedRunHelper
         public string StrMiliSeconds => $"{MiliSeconds}";
         public string StrSeconds => $"{Seconds}";
         public string StrMinutes => $"{Minutes}";
-        public string StrTime => $"{Minutes}:{Seconds}.{MiliSeconds}";
+        public string StrTime => $"{Minutes}:{Seconds}.{MiliSeconds:0.##}";
         public static bool IsBossHenshin { get; set; } = false;
         public double TimeSeconds => timeSeconds; 
         public bool ContinueTimeGo

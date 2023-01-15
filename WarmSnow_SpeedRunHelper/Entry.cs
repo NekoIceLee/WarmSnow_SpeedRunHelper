@@ -15,7 +15,7 @@ using HammerGameBase.Util;
 
 namespace WarmSnow_SpeedRunHelper
 {
-    [BepInPlugin("com.NekoIce.SpeedRunHelper", "SpeedRunHelper", "0.0.1")]
+    [BepInPlugin("com.NekoIce.SpeedRunHelper", "SpeedRunHelper", "1.0.0")]
     public class HelperMainModule : BaseUnityPlugin
     {
         public delegate void UpdateHandle();

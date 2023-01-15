@@ -55,6 +55,7 @@ namespace WarmSnow_SpeedRunHelper
 
         public void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
         {
+            return;
             CurrentScene = arg1;
             //common Switch Maps
             if (string.IsNullOrEmpty(fileName)) { fileName= StartRun(); }
@@ -93,6 +94,7 @@ namespace WarmSnow_SpeedRunHelper
         }
         private string StartRun()
         {
+            return null;
             if (PlayerAnimControl.instance.playerParameter.PLAYER_SECT == Sect.None) { return null; }
             string filename = $"{DateTime.Now:M-dd-H-m-ss}_{PlayerAnimControl.instance.playerParameter.PLAYER_SECT}";
             filename = $"D:\\{filename}.csv";
